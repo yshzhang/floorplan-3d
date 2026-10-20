@@ -237,7 +237,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
     <div class="grp only2d" id="tools">
       <button class="btn on" data-tool="select" title="选择 / 移动 (V)" data-en-title="Select / Move (V)" data-en="Select">选择</button>
       <button class="btn" data-tool="measure" title="测量 (M)" data-en-title="Measure (M)" data-en="Measure">测量</button>
-      <button class="btn" data-tool="demolish" title="拆改非承重墙 (X)" data-en-title="Demolish non-bearing walls (X)" data-en="Demolish (unverified)">拆改待核实</button>
+      <button class="btn" data-tool="demolish" title="拆改非承重墙 (X)" data-en-title="Mark non-bearing walls (X)" data-en="Non-bearing walls">非承重墙标记</button>
     </div>
     <div class="grp only2d">
       <button class="btn" id="zoomOut" title="缩小" data-en-title="Zoom out">−</button>
@@ -356,7 +356,7 @@ const tr = (zh, en) => LANG === 'en' ? en : LANG === 'zht' ? s2t(zh) : zh;
 const NAMES_EN = {
   '主卧室':'Master Bedroom', '主卫浴':'Master Bath', '小孩房':"Kids' Room", '客卫浴':'Guest Bath', '洗衣阳台':'Laundry Balcony',
   '子女房':"Children's Room", '厨房':'Kitchen', '餐厅':'Dining', '过道':'Hallway', '客厅':'Living Room', '休闲阳台':'Leisure Balcony',
-  '主卧飘窗':'Master Bay Window', '子女房飘窗':"Children's Bay Window",
+  '主卧飘窗':'Master Bay Window', '客厅飘窗':'Living Room Bay Window', '书房':'Study', '客餐厅':'Living & Dining', '次卧':'Secondary Bedroom', '卫生间 D':'Bathroom D', '卫生间 F':'Bathroom F', '子女房飘窗':"Children's Bay Window",
   '橡木地板':'Oak Flooring', '胡桃木地板':'Walnut Flooring', '800 地砖':'800 Tile', '600 地砖':'600 Tile', '大理石':'Marble',
   '300 防滑砖':'300 Anti-slip Tile', '水磨石':'Terrazzo', '满铺地毯':'Wall-to-wall Carpet',
   '卧室':'Bedroom', '餐厨':'Dining & Kitchen', '卫浴':'Bathroom', '家电':'Appliances', '书房 · 休闲':'Study & Leisure',
@@ -393,52 +393,49 @@ function applyStaticLang(){
  * ============================================================ */
 // 墙体 [x0,y0,x1,y1,类型] e=外围墙; b=暂按不可拆; n=普通隔墙（同样不能未经核实拆除）
 const WALLS = [
-  [0,-180,1930,0,'e'],
-  [3660,-180,6200,0,'e'],
-  [-180,0,0,2800,'e'],
-  [6200,0,6420,2800,'e'],
-  [1700,0,1850,2800,'n'],
+  // 北向外墙：书房北窗和厨房北窗分别开洞
+  [0,-180,1930,0,'e'], [3660,-180,4750,0,'e'], [5850,-180,6200,0,'e'],
+  // 左上设备平台 / 书房西面局部窗
+  [-180,0,0,2800,'e'], [1700,0,1850,220,'n'], [1700,620,1850,1540,'n'], [1700,1940,1850,2800,'n'],
   [0,2690,740,2840,'e'],
-  [4100,0,4220,2800,'n'],
-  [4100,2780,5050,2890,'n'],
-  [1700,3940,1840,8100,'n'],
-  [-180,6400,0,14240,'e'],
-  [0,6380,470,6530,'e'],
-  [1480,6380,1700,6530,'e'],
-  [0,9030,1610,9160,'n'],
-  [1540,9030,1870,9450,'b'],
-  [0,12460,640,12600,'e'],
-  [2660,12460,2900,12600,'e'],
-  [2850,9380,2980,13540,'n'],
-  [2850,12500,3060,14240,'b'],
-  [2900,7900,4230,8030,'n'],
-  [4230,7900,6070,8080,'b'],
-  [4050,7900,4170,9110,'n'],
-  [4100,9960,6200,10080,'n'],
+  // 厨房与书房、客餐厅相邻的墙
+  [4100,0,4220,2800,'n'], [4100,2780,5050,2890,'n'],
+  [6200,0,6420,2800,'e'],
+  // 左侧围护结构与卫生间
+  [1700,3940,1840,8100,'n'], [-180,6400,0,14240,'e'],
+  [0,6380,470,6530,'e'], [1480,6380,1700,6530,'e'],
+  [0,9030,1580,9160,'n'], [1580,9060,1840,9540,'b'],
+  // 次卧与阳台的推拉门洞
+  [0,12460,640,12600,'e'], [2660,12460,2900,12600,'e'],
+  [2850,9380,2980,13540,'n'], [2850,12500,3060,14240,'b'],
+  // 中部卫生间、走道
+  [2900,7900,4230,8030,'n'], [4230,7900,6070,8080,'b'],
+  [4050,7900,4170,9110,'n'], [4100,9960,6200,10080,'n'],
+  // 右侧外墙 / 普通窗（位于客餐厅上侧，不是主卧）
   [6200,2800,6390,3550,'e'],
-  [6200,4800,6390,7900,'e'],
-  [6200,4800,6570,4950,'e'],
-  [6490,4950,6650,5390,'e'],
-  [6490,7440,6650,7770,'e'],
+  // 客厅右侧中部向外凸出的飘窗：两端短墙、外端窗、内侧矮窗台
+  [6200,4800,6570,4950,'e'], [6200,4950,6390,7770,'low'],
+  [6490,4950,6650,5390,'e'], [6490,7440,6650,7770,'e'],
   [6200,7770,6650,7930,'e'],
-  [6200,7900,6400,8180,'e'],
-  [6200,8990,6400,10100,'e'],
-  [6200,12000,6400,14240,'e'],
-  [2900,13500,6200,13640,'e'],
-  [2900,14240,4300,14420,'e'],
-  [4300,14240,4420,14420,'e'],
-  [2900,13500,4300,13630,'n'],
-  [4300,13500,4420,14240,'n'],
+  // 卫生间 F 右侧窗，主卧右侧从 10100 开始整面为墙，不开窗
+  [6200,7900,6400,8180,'e'], [6200,8990,6400,10100,'e'],
+  [6200,10100,6400,14240,'e'],
+  // 主卧南侧仅有飘窗窗台，不将南侧飘窗单独隔成房间
+  [2900,13500,4300,13640,'e'], [4420,13500,6200,13640,'low'],
+  [2900,14240,4300,14420,'e'], [4300,14240,4420,14420,'e'],
+  [2900,13500,4300,13630,'n'], [4300,13500,4420,14240,'n'],
 ];
 const WINS = [
-  [1930,-180,3660,0],
-  [470,6380,1480,6530],
-  [6200,3550,6390,4800],
-  [6490,5390,6650,7440],
-  [6200,8180,6400,8990],
-  [6200,10100,6400,12000],
-  [0,14240,2900,14420],
-  [4420,14240,6200,14420],
+  [1930,-180,3660,0],       // 书房北窗
+  [4750,-180,5850,0],       // 厨房北窗（此次补充）
+  [1700,220,1850,620],     // 书房左侧上部窗
+  [1700,1540,1850,1940],   // 书房左侧下部窗
+  [470,6380,1480,6530],   // 左侧中部窗
+  [6200,3550,6390,4800],  // 客餐厅右侧普通窗
+  [6490,5390,6650,7440],  // 客厅向右凸出飘窗的外侧长窗
+  [6200,8180,6400,8990],  // 右中部 F 卫生间处窗
+  [0,14240,2900,14420],   // 左下阳台外窗
+  [4420,14240,6200,14420] // 主卧南侧飘窗外窗（非右侧墙窗）
 ];
 const DOORS = [
   {name:'入户门（左上侧）',rect:[760,2690,1700,2840],h:[1700,2800],c:[-1,0],o:[0,1],len:940,entry:true},
@@ -447,6 +444,11 @@ const SLIDES = [
   {rect:[640,12460,2660,12600],v:false},
 ];
 const R = (x0,y0,x1,y1) => [[x0,y0],[x1,y0],[x1,y1],[x0,y1]];
+// 飘窗属于客厅/主卧的固定窗台，并非独立房间；不计入房间面积、家具库和房间列表。
+const BAYS = [
+  {id:'living_bay',name:'客厅飘窗',poly:R(6020,4950,6490,7770),height:.55},
+  {id:'master_bay',name:'主卧飘窗',poly:R(4420,13640,6200,14240),height:.48},
+];
 const ROOMS = [
   {id:"study", name:"书房", poly:R(1850,0,4100,2780), mat:"wood", at:[2980,1530]},
   {id:"kitchen", name:"厨房", poly:R(4220,0,6200,2780), mat:"tile600", at:[5210,1550]},
@@ -513,7 +515,7 @@ function defaultState(){
   return {furniture:defaultFurniture(), rooms, demolished:[], measures:[]};
 }
 
-const STORE = 'huxing-yshzhang-20261020-v3';
+const STORE = 'huxing-yshzhang-20261020-v5-marked';
 function load(){
   try { const s = JSON.parse(localStorage.getItem(STORE)); if (s && Array.isArray(s.furniture)) return fixState(s); } catch(e) {}
   return null;
@@ -700,6 +702,15 @@ const NOLABEL = ['plant','floorlamp','sidetable','barstool','beanbag'];
 function renderRooms(){
   let s = '';
   ROOMS.forEach(r => s += `<polygon class="room" data-room="${r.id}" points="${r.poly.map(p=>p.join(',')).join(' ')}" fill="url(#m-${state.rooms[r.id].mat})"/>`);
+  // 固定飘窗窗台：不登记为房间，不影响面积统计。
+  BAYS.forEach(b => {
+    const pts = b.poly.map(p => p.join(',')).join(' ');
+    const mx = b.poly.reduce((a,p) => a+p[0],0)/b.poly.length;
+    const my = b.poly.reduce((a,p) => a+p[1],0)/b.poly.length;
+    s += `<polygon points="${pts}" fill="#f2eee8" stroke="#a19b91" stroke-width="2" vector-effect="non-scaling-stroke" pointer-events="none"/>`;
+    const vertical = b.id === 'living_bay';
+    s += `<text x="${mx}" y="${my+60}" text-anchor="middle" font-size="150" fill="#726e68" pointer-events="none" ${vertical ? `transform="rotate(-90 ${mx} ${my})"` : ''}>${nm(b.name)}</text>`;
+  });
   const sill = ([a,b,c,d]) => `<rect x="${a}" y="${b}" width="${c-a}" height="${d-b}" fill="#e2dacb" stroke="#b9b0a0" stroke-width="1" vector-effect="non-scaling-stroke" pointer-events="none"/>`;
   DOORS.forEach(d => s += sill(d.rect)); SLIDES.forEach(d => s += sill(d.rect));
   $('#gRooms').innerHTML = s;
@@ -720,7 +731,7 @@ function renderWalls(){
   $('#gWalls').innerHTML = WALLS.map((w,i) => {
     const [x0,y0,x1,y1,k] = w, id = 'w'+i, dem = state.demolished.includes(id);
     let fill = k==='b' ? (ui.layers.bearing ? '#b8412c' : '#26241f') : k==='low' ? '#e9e3d8' : k==='e' ? '#8f897d' : '#a7a195';
-    let ex = k==='low' ? 'stroke="#8f897d" stroke-width="1" vector-effect="non-scaling-stroke"' : '';
+    let ex = k==='low' ? 'stroke="#8f897d" stroke-width="1" vector-effect="non-scaling-stroke"' : (k==='n' ? 'stroke="#cc8a45" stroke-width="1.1" stroke-dasharray="5 3" vector-effect="non-scaling-stroke"' : '');
     if (dem){ fill = 'rgba(198,91,58,.12)'; ex = 'stroke="#c65b3a" stroke-width="1.2" stroke-dasharray="5 3" vector-effect="non-scaling-stroke"'; }
     return `<rect class="wall" data-wall="${id}" x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" fill="${fill}" ${ex}/>`;
   }).join('');
@@ -902,7 +913,7 @@ function overviewPanel(){
     <kbd>⌘/Ctrl D</kbd><span>复制</span><kbd>Delete</kbd><span>删除</span><kbd>⌘/Ctrl Z</kbd><span>撤销</span><kbd>T</kbd><span>切换 2D / 3D</span><kbd>F</kbd><span>适应窗口</span><kbd>Esc</kbd><span>取消选择</span>
   </div></section>`, `<section><h3>Keyboard Shortcuts</h3><div class="kbd">
     <kbd>Drag</kbd><span>Drag furniture onto the plan</span><kbd>V</kbd><span>Select / move</span><kbd>M</kbd><span>Measure (Shift: horizontal/vertical)</span>
-    <kbd>X</kbd><span>Demolish non-bearing walls (black = bearing)</span><kbd>R</kbd><span>Rotate 90° (Shift reverses)</span><kbd>Arrows</kbd><span>Nudge 10mm (Shift 100mm)</span>
+    <kbd>X</kbd><span>Mark non-bearing walls (deletion disabled on main page)</span><kbd>R</kbd><span>Rotate 90° (Shift reverses)</span><kbd>Arrows</kbd><span>Nudge 10mm (Shift 100mm)</span>
     <kbd>⌘/Ctrl D</kbd><span>Duplicate</span><kbd>Delete</kbd><span>Delete</span><kbd>⌘/Ctrl Z</kbd><span>Undo</span><kbd>T</kbd><span>Toggle 2D / 3D</span><kbd>F</kbd><span>Fit to window</span><kbd>Esc</kbd><span>Deselect</span>
   </div></section>`)}`;
 }
@@ -1077,7 +1088,7 @@ function syncModeHint(){
   const hints = {select:'',
     measure:COARSE ? tr('按住拖出测量线，或依次点两点 · 靠近墙面自动吸附 · 点「选择」退出', 'Hold and drag a line, or tap two points · snaps to walls · tap "Select" to exit')
       : tr('点击两点（或按住拖动）测量距离 · 靠近墙面自动吸附 · Shift 锁定水平/垂直 · Esc 取消', 'Click two points (or drag) to measure · snaps to walls · Shift locks horizontal/vertical · Esc cancels'),
-    demolish:tr('点击灰色非承重墙标记拆除，再次点击恢复 · 黑色承重墙不可拆', 'Click a grey non-bearing wall to remove it, click again to restore · black bearing walls cannot be removed')};
+    demolish:tr('橙色虚线边框 = 非承重墙标记；主页不支持直接删除墙体', 'Orange dashed edges mark non-bearing walls; deleting walls on the main page is disabled')};
   const h = $('#modehint'); h.textContent = hints[ui.tool]; h.classList.toggle('show', !!hints[ui.tool]);
 }
 
@@ -1186,7 +1197,7 @@ svg.addEventListener('pointerdown', e => {
   if (h && ui.sel?.kind === 'furn'){
     drag = {kind:h.dataset.handle, id:ui.sel.id, sx:e.clientX, sy:e.clientY, before:snap(), moved:false};
   } else if (ui.tool === 'demolish' && t.closest('[data-wall]')){
-    toggleWall(t.closest('[data-wall]').dataset.wall); return;
+    toast(tr('当前版本仅标记非承重墙，主页不支持直接删除墙体', 'This version only marks non-bearing walls; deleting walls on the main page is disabled')); return;
   } else if (ui.tool === 'select' && t.closest('[data-fid]')){
     const f = getF(t.closest('[data-fid]').dataset.fid);
     if (ui.sel?.id !== f.id) select({kind:'furn', id:f.id});
@@ -2278,6 +2289,14 @@ function buildArch(){
       const pl = new THREE.PointLight(0xffd9a8, 0, 7, 1.6); pl.position.set(wx(r.at[0]), H - .25, wz(r.at[1])); lampG.add(pl);
     }
   });
+  // 飘窗 3D 固定凸窗台，与 2D 共用 BAYS 多边形；不生成独立房间或天花。
+  BAYS.forEach(b => {
+    const geo = new THREE.ExtrudeGeometry(shapeOf(b.poly), {depth:b.height, bevelEnabled:false});
+    geo.rotateX(-Math.PI/2);
+    const platform = new THREE.Mesh(geo, [floorMat('marble'), mat('#e0dcd3', {roughness:.9})]);
+    platform.receiveShadow = platform.castShadow = true;
+    archUp.add(platform);
+  });
   [...DOORS, ...SLIDES].forEach(d => { const [x0, y0, x1, y1] = d.rect; const s = box(M(x1-x0), .012, M(y1-y0), mat('#d8d0c0', {roughness:.3}), wx((x0+x1)/2), 0, wz((y0+y1)/2)); s.castShadow = false; archFloor.add(s); });
   WALLS.forEach((w, i) => {
     if (state.demolished.includes('w'+i)) return;
@@ -2288,7 +2307,7 @@ function buildArch(){
   [...DOORS.map(d => [d.rect, 2.1]), ...SLIDES.map(s => [s.rect, s.v ? 2.4 : 2.1])]
     .forEach(([r, h]) => { if (top > h) wallBox(r, h, top); });
   WINS.forEach((r, i) => {
-    const sill = [1.0,1.15,.85,.65,1.0,.95,.55,.65][i] ?? .9, head = 2.4;
+    const sill = [1.0,1.0,.95,1.05,.95,.55,1.05,.65,.48][i] ?? .9, head = 2.4;
     wallBox(r, 0, Math.min(sill, top)); if (top > head) wallBox(r, head, top);
     colliders.push([wx(r[0]), wz(r[1]), wx(r[2]), wz(r[3])]);
     const gTop = Math.min(head, top); if (gTop <= sill) return;
