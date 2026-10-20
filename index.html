@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#fffdf9">
-<title>鎴峰瀷瑁呬慨璁捐</title>
+<title>户型装修设计</title>
 <style>
 :root{
   --bg:#f3efe7; --paper:#f7f4ee; --panel:#fffdf9; --line:#e3dccf; --ink:#2b2824; --muted:#8a8174;
@@ -108,7 +108,7 @@ kbd{font:11px ui-monospace,Menlo,monospace;background:#f2ece2;border:1px solid v
 #toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;
   padding:8px 16px;border-radius:8px;opacity:0;transition:.25s;pointer-events:none;z-index:10}
 #toast.show{opacity:1;transform:translateX(-50%)}
-/* ---------- 2D / 3D 鍒囨崲 ---------- */
+/* ---------- 2D / 3D 切换 ---------- */
 .seg{position:relative;padding:3px}
 .seg .btn{position:relative;z-index:1;width:82px;transition:color .45s}
 .seg .btn:hover{background:transparent}
@@ -155,7 +155,7 @@ main.animating #hint3d{opacity:0}
   border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 10px 30px rgba(40,30,20,.14);z-index:20;animation:fadeIn .2s ease}
 .menu-pop .btn{text-align:left}
 .range span{font-variant-numeric:tabular-nums;color:var(--ink)}
-/* ---------- 閫変腑鍚庣殑娴姩宸ュ叿鏉? ---------- */
+/* ---------- 选中后的浮动工具条 ---------- */
 #fab{position:absolute;left:50%;bottom:16px;transform:translate(-50%,12px);display:flex;align-items:center;gap:4px;padding:5px;
   background:rgba(255,253,249,.97);border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 26px rgba(40,30,20,.16);
   z-index:4;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility 0s linear .2s;max-width:calc(100% - 24px)}
@@ -164,13 +164,13 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
 #fab .name{padding:0 8px 0 6px;font-weight:600;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #fab .btn{border:1px solid transparent}
 #fab .sep{width:1px;align-self:stretch;margin:4px 2px;background:var(--line)}
-/* ---------- 瑙﹀睆婕父鎽囨潌 ---------- */
+/* ---------- 触屏漫游摇杆 ---------- */
 #joy{position:absolute;left:28px;bottom:28px;width:130px;height:130px;border-radius:50%;background:rgba(255,253,249,.25);
   border:2px solid rgba(255,255,255,.7);box-shadow:0 4px 18px rgba(0,0,0,.18);z-index:3;display:none;touch-action:none;backdrop-filter:blur(3px)}
 #joy i{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(255,253,249,.92);
   box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
 #walkExit{position:absolute;right:16px;bottom:28px;z-index:3;display:none}
-/* ---------- 瑙﹀睆锛氬姞澶х偣鍑诲尯鍩? ---------- */
+/* ---------- 触屏：加大点击区域 ---------- */
 @media (pointer:coarse){
   body{font-size:14px}
   header{padding:8px 12px;gap:8px}
@@ -189,8 +189,8 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
   .mat{padding:9px 8px}
   .range input{width:120px!important}
 }
-/* ---------- 绔栧睆 / 绐勫睆锛堝 iPad 绔栨彙锛夛細渚ф爮鏀逛负鎶藉眽 ---------- */
-/* ---------- 瀹藉睆锛氬乏鍙抽潰鏉垮彲鏀惰捣 ---------- */
+/* ---------- 竖屏 / 窄屏（如 iPad 竖握）：侧栏改为抽屉 ---------- */
+/* ---------- 宽屏：左右面板可收起 ---------- */
 @media (min-width:1101px){
   .app{transition:grid-template-columns .3s cubic-bezier(.3,.7,.3,1)}
   .app.hide-lib{grid-template-columns:0 minmax(0,1fr) 300px}
@@ -198,7 +198,7 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
   .app.hide-lib.hide-panel{grid-template-columns:0 minmax(0,1fr) 0}
   .app.hide-lib aside.lib,.app.hide-panel aside.right{overflow:hidden;border:0}
   aside{overflow-x:hidden}
-  aside.lib>div{min-width:220px} #panel{min-width:284px}   /* 鏀惰捣鍔ㄧ敾涓唴瀹逛笉琚尋鍘嬪彉褰? */
+  aside.lib>div{min-width:220px} #panel{min-width:284px}   /* 收起动画中内容不被挤压变形 */
 }
 .narrow-only{display:none!important}
 @media (max-width:1100px){
@@ -225,78 +225,78 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
 <div class="app">
   <header>
     <div class="grp" id="paneBtns">
-      <button class="btn chip" id="tgLib" data-en="鈼? Library">鈼? 瀹跺叿搴?</button>
-      <button class="btn chip" id="tgPanel" data-en="Properties 鈼?">灞炴?? 鈼?</button>
+      <button class="btn chip" id="tgLib" data-en="◧ Library">◧ 家具库</button>
+      <button class="btn chip" id="tgPanel" data-en="Properties ◨">属性 ◨</button>
     </div>
-    <div class="brand"><b data-en="3BR 2LR 2BA 路 Interior Design">涓夊涓ゅ巺涓ゅ崼 路 瑁呬慨璁捐</b><span id="subtitle">鏂版埛鍨? 路 灏哄鍗曚綅 mm 路 閮ㄥ垎寰呭鏍?</span></div>
-    <div class="grp seg" id="viewSeg" title="鍒囨崲 2D / 3D (T)" data-en-title="Switch 2D / 3D (T)">
+    <div class="brand"><b data-en="3BR 2LR 2BA · Interior Design">三室两厅两卫 · 装修设计</b><span id="subtitle">新户型 · 尺寸单位 mm · 部分待复核</span></div>
+    <div class="grp seg" id="viewSeg" title="切换 2D / 3D (T)" data-en-title="Switch 2D / 3D (T)">
       <span class="pill"></span>
-      <button class="btn" data-view="2d" data-en="2D Plan">2D 骞抽潰</button>
-      <button class="btn" data-view="3d" data-en="3D Scene">3D 鍦烘櫙</button>
+      <button class="btn" data-view="2d" data-en="2D Plan">2D 平面</button>
+      <button class="btn" data-view="3d" data-en="3D Scene">3D 场景</button>
     </div>
     <div class="grp only2d" id="tools">
-      <button class="btn on" data-tool="select" title="閫夋嫨 / 绉诲姩 (V)" data-en-title="Select / Move (V)" data-en="Select">閫夋嫨</button>
-      <button class="btn" data-tool="measure" title="娴嬮噺 (M)" data-en-title="Measure (M)" data-en="Measure">娴嬮噺</button>
-      <button class="btn" data-tool="demolish" title="鎷嗘敼闈炴壙閲嶅 (X)" data-en-title="Demolish non-bearing walls (X)" data-en="Demolish (unverified)">鎷嗘敼寰呮牳瀹?</button>
+      <button class="btn on" data-tool="select" title="选择 / 移动 (V)" data-en-title="Select / Move (V)" data-en="Select">选择</button>
+      <button class="btn" data-tool="measure" title="测量 (M)" data-en-title="Measure (M)" data-en="Measure">测量</button>
+      <button class="btn" data-tool="demolish" title="拆改非承重墙 (X)" data-en-title="Demolish non-bearing walls (X)" data-en="Demolish (unverified)">拆改待核实</button>
     </div>
     <div class="grp only2d">
-      <button class="btn" id="zoomOut" title="缂╁皬" data-en-title="Zoom out">鈭?</button>
-      <button class="btn" id="zoomIn" title="鏀惧ぇ" data-en-title="Zoom in">锛?</button>
-      <button class="btn" id="fit" title="閫傚簲绐楀彛 (F)" data-en-title="Fit to window (F)" data-en="Fit">閫傚簲</button>
-      <button class="btn" id="s60" title="鎸? 1:60 鏄剧ず锛堜笌鍘熷浘鍚屾瘮渚嬶級" data-en-title="Show at 1:60 (same scale as the original plan)">1:60</button>
-      <button class="btn" id="s100" title="鎸? 1:100 鏄剧ず" data-en-title="Show at 1:100">1:100</button>
+      <button class="btn" id="zoomOut" title="缩小" data-en-title="Zoom out">−</button>
+      <button class="btn" id="zoomIn" title="放大" data-en-title="Zoom in">＋</button>
+      <button class="btn" id="fit" title="适应窗口 (F)" data-en-title="Fit to window (F)" data-en="Fit">适应</button>
+      <button class="btn" id="s60" title="按 1:60 显示（与原图同比例）" data-en-title="Show at 1:60 (same scale as the original plan)">1:60</button>
+      <button class="btn" id="s100" title="按 1:100 显示" data-en-title="Show at 1:100">1:100</button>
     </div>
     <div class="grp only3d" id="modes3d">
-      <button class="btn on" data-mode="orbit" data-en="Orbit">楦熺灠</button>
-      <button class="btn" data-mode="walk" data-en="Walk">婕父</button>
+      <button class="btn on" data-mode="orbit" data-en="Orbit">鸟瞰</button>
+      <button class="btn" data-mode="walk" data-en="Walk">漫游</button>
     </div>
     <div class="grp only3d">
-      <button class="btn" id="vIso" data-en="Iso">鏂滆</button>
-      <button class="btn" id="vTop" data-en="Top">淇</button>
+      <button class="btn" id="vIso" data-en="Iso">斜视</button>
+      <button class="btn" id="vTop" data-en="Top">俯视</button>
     </div>
     <div class="grp">
-      <button class="btn" id="undo" title="鎾ら攢 (Ctrl+Z)" data-en-title="Undo (Ctrl+Z)" data-en="Undo">鎾ら攢</button>
-      <button class="btn" id="redo" title="閲嶅仛 (Ctrl+Shift+Z)" data-en-title="Redo (Ctrl+Shift+Z)" data-en="Redo">閲嶅仛</button>
-      <button class="btn danger" id="clearAll" title="娓呯┖鎵?鏈夊鍏峰鐢碉紙鍙挙閿?锛?" data-en-title="Remove all furniture and appliances (undoable)" data-en="Clear">娓呯┖甯冪疆</button>
+      <button class="btn" id="undo" title="撤销 (Ctrl+Z)" data-en-title="Undo (Ctrl+Z)" data-en="Undo">撤销</button>
+      <button class="btn" id="redo" title="重做 (Ctrl+Shift+Z)" data-en-title="Redo (Ctrl+Shift+Z)" data-en="Redo">重做</button>
+      <button class="btn danger" id="clearAll" title="清空所有家具家电（可撤销）" data-en-title="Remove all furniture and appliances (undoable)" data-en="Clear">清空布置</button>
     </div>
     <div class="grp only2d" id="layers">
-      <button class="btn chip on" data-layer="dims" data-en="Dims">灏哄</button>
-      <button class="btn chip on" data-layer="labels" data-en="Rooms">鎴块棿</button>
-      <button class="btn chip on" data-layer="furn" data-en="Furniture">瀹跺叿</button>
-      <button class="btn chip" data-layer="grid" data-en="Grid">缃戞牸</button>
-      <button class="btn chip" data-layer="bearing" data-en="Bearing walls">鎵块噸澧?</button>
-      <button class="btn chip on" data-layer="wallSnap" title="鎷栧姩瀹跺叿鏃惰创澧欏惛闄?" data-en-title="Snap furniture to walls while dragging" data-en="Wall snap">璐村鍚搁檮</button>
+      <button class="btn chip on" data-layer="dims" data-en="Dims">尺寸</button>
+      <button class="btn chip on" data-layer="labels" data-en="Rooms">房间</button>
+      <button class="btn chip on" data-layer="furn" data-en="Furniture">家具</button>
+      <button class="btn chip" data-layer="grid" data-en="Grid">网格</button>
+      <button class="btn chip" data-layer="bearing" data-en="Bearing walls">承重墙</button>
+      <button class="btn chip on" data-layer="wallSnap" title="拖动家具时贴墙吸附" data-en-title="Snap furniture to walls while dragging" data-en="Wall snap">贴墙吸附</button>
     </div>
     <div class="grp only3d">
-      <button class="btn chip on" data-cut="2.8" data-en="Full walls">鍏ㄩ珮澧?</button>
-      <button class="btn chip" data-cut="1.2" data-en="Cut walls">鍓栧垏澧?</button>
+      <button class="btn chip on" data-cut="2.8" data-en="Full walls">全高墙</button>
+      <button class="btn chip" data-cut="1.2" data-en="Cut walls">剖切墙</button>
     </div>
     <div class="grp only3d" id="toggles3d">
-      <button class="btn chip on" data-t="furn" data-en="Furniture">瀹跺叿</button>
-      <button class="btn chip on" data-t="labels" data-en="Labels">鎴块棿鍚?</button>
-      <button class="btn chip" data-t="night" data-en="Night">澶滄櫙</button>
+      <button class="btn chip on" data-t="furn" data-en="Furniture">家具</button>
+      <button class="btn chip on" data-t="labels" data-en="Labels">房间名</button>
+      <button class="btn chip" data-t="night" data-en="Night">夜景</button>
     </div>
-    <div class="grp only3d"><label class="range"><span data-en="Sun">鏃ョ収</span> <input type="range" id="sun" min="7" max="18" step=".25" value="10" style="width:84px"><span id="sunT">10:00</span></label></div>
+    <div class="grp only3d"><label class="range"><span data-en="Sun">日照</span> <input type="range" id="sun" min="7" max="18" step=".25" value="10" style="width:84px"><span id="sunT">10:00</span></label></div>
     <div class="spacer"></div>
-    <div class="grp" id="langSel" role="group" aria-label="Language / 璇█">
-      <button class="btn chip" data-lang="zh" title="绠?浣撲腑鏂?">绠?</button>
-      <button class="btn chip" data-lang="zht" title="绻侀珨涓枃">绻?</button>
+    <div class="grp" id="langSel" role="group" aria-label="Language / 语言">
+      <button class="btn chip" data-lang="zh" title="简体中文">简</button>
+      <button class="btn chip" data-lang="zht" title="繁體中文">繁</button>
       <button class="btn chip" data-lang="en" title="English">EN</button>
     </div>
-    <button class="btn" id="fullscreen" title="鍏ㄥ睆 (Shift+F)" style="border:1px solid var(--line);background:#fff">鉀? 鍏ㄥ睆</button>
-    <details class="menu"><summary class="btn" data-en="File 鈻?">鏂囦欢 鈻?</summary>
+    <button class="btn" id="fullscreen" title="全屏 (Shift+F)" style="border:1px solid var(--line);background:#fff">⛶ 全屏</button>
+    <details class="menu"><summary class="btn" data-en="File ▾">文件 ▾</summary>
       <div class="menu-pop">
-        <button class="btn" id="exportPng" data-en="Export image">瀵煎嚭鍥剧墖</button>
-        <button class="btn" id="exportJson" data-en="Export plan JSON">瀵煎嚭鏂规 JSON</button>
-        <button class="btn" id="importJson" data-en="Import plan">瀵煎叆鏂规</button>
-        <button class="btn danger" id="reset" data-en="Reset to default">閲嶇疆涓洪粯璁ゆ柟妗?</button>
+        <button class="btn" id="exportPng" data-en="Export image">导出图片</button>
+        <button class="btn" id="exportJson" data-en="Export plan JSON">导出方案 JSON</button>
+        <button class="btn" id="importJson" data-en="Import plan">导入方案</button>
+        <button class="btn danger" id="reset" data-en="Reset to default">重置为默认方案</button>
       </div></details>
     <input type="file" id="fileIn" accept=".json,application/json" hidden>
   </header>
 
   <aside class="lib">
     <div id="lib3d" class="only3d">
-      <h4 data-en="Rooms 路 click to fly there">鎴块棿 路 鐐瑰嚮椋炲埌璇ユ埧闂?</h4>
+      <h4 data-en="Rooms · click to fly there">房间 · 点击飞到该房间</h4>
       <div id="roomList"></div>
     </div>
     <div id="lib"></div>
@@ -316,13 +316,13 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
       <g id="gSel"></g>
     </svg>
     <div id="view3d">
-      <div id="walkOverlay"><div><h3 data-en="Walk mode">婕父妯″紡</h3>
+      <div id="walkOverlay"><div><h3 data-en="Walk mode">漫游模式</h3>
         <p id="wo1"></p>
         <p id="wo2"></p>
         <p id="wo3"></p></div></div>
       <div id="cross"></div>
       <div id="joy"><i></i></div>
-      <button class="btn primary" id="walkExit" data-en="Exit walk">閫?鍑烘极娓?</button>
+      <button class="btn primary" id="walkExit" data-en="Exit walk">退出漫游</button>
       <div id="hint3d"></div>
     </div>
     <div class="scalebar" id="scalebar"><span id="sbText">1 m</span><div class="bar" id="sbBar"></div></div>
@@ -333,8 +333,8 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
   <aside class="right"><div id="panel"></div></aside>
 
   <footer>
-    <span class="only2d">X <b id="cx">鈥?</b></span><span class="only2d">Y <b id="cy">鈥?</b></span>
-    <span class="only2d"><span data-en="Scale">褰撳墠姣斾緥</span> <b id="ratio">鈥?</b></span>
+    <span class="only2d">X <b id="cx">—</b></span><span class="only2d">Y <b id="cy">—</b></span>
+    <span class="only2d"><span data-en="Scale">当前比例</span> <b id="ratio">—</b></span>
     <span id="hover" class="only2d"></span>
     <span class="spacer"></span>
     <span id="tip"></span>
@@ -343,55 +343,55 @@ main.drawer-panel #fab{opacity:0;visibility:hidden}
 <div id="toast"></div>
 
 <script>
-/* ======================= 澶氳瑷?锛堜腑鏂? / English锛岄粯璁や腑鏂囷級 ======================= */
+/* ======================= 多语言（中文 / English，默认中文） ======================= */
 const LANG_KEY = 'huxing-lang';
-const LANGS = ['zh', 'zht', 'en'];             // 绠?浣? / 绻侀珨锛堝彴婀剧敤瀛楋級/ English
+const LANGS = ['zh', 'zht', 'en'];             // 简体 / 繁體（台湾用字）/ English
 let LANG = (() => { try { const l = localStorage.getItem(LANG_KEY); return LANGS.includes(l) ? l : 'zh'; } catch(e) { return 'zh'; } })();
-// 绠? 鈫? 绻侊細鍏堟寜璇嶆浛鎹竴瀛楀涔夌殑瀛楋紝鍐嶉?愬瓧鏌ヨ〃锛堣〃鐢? OpenCC s2tw 鎸夋湰椤电敤鍒扮殑瀛楃敓鎴愶級
-const S2T_PHRASES = [['甯冪疆','浣堢疆'],['甯冨眬','浣堝眬'],['鍙伴潰','妾潰'],['澶嶅埗','瑜囪＝']];
-const S2T = new Map(('涓庤垏涓ゅ叐涓?嬩负鐐轰功鏇镐簬鏂间粎鍍呬粠寰炰环鍍逛細鏈冧紶鍌充綋楂斾綑椁樹晶鍋村?惧偩鍌ㄥ劜鍎垮厭鍏抽棞鍐呭収鍐欏鍑?娣ㄥ噯婧栧嚮鎿婂垯鍓囧垰鍓涘垹鍒埗瑁藉姙杈﹀姩鍕曞娍鍕㈠尯鍗?鍗曞柈鍗犱綌鍗ц嚗鍗鍘呭怀鍘嗘鍘嬪鍘ㄥ粴鍙岄洐鍙戠櫦鍙樿畩鍙惰憠鍚庡緦鍚楀棊鍚伣鍚暉鍝戝暈鍥村湇鍥惧湒鍦嗗湏鍦哄牬鍧愬骇鍧楀鍨澧欑墕澶勮檿澶囧倷澶嶅京澶撮牠濡嗗濠村瀹炲瀹藉瀵瑰皪瀵煎皫灞傚堡灞夊睖灞炲爆宀涘扯甯﹀付骞蹭咕骞朵甫搴撳韩搴旀噳寮?闁嬪綋鐣跺緞寰戞?佹厠鎬荤附鎮嚫鎳掓嚩鎴锋埗鎶よ鎷熸摤鎷╂搰鎸傛帥鎸℃搵鎸ゆ摖鎹熸悕鎹㈡彌鎹摎鎽嗘摵鎽囨悥鎾戞拹鏁版暩鏃犵劇鏃舵檪鏄鹃’鏆傛毇鏈烘鏉傞洔鏉嗘】鏉℃鏉ヤ締鏉鹃瑔鏋勬鏌滄珒鏍囨鏍堟＇鏍忔瑒鏍锋ǎ姊佹☉妫辩妞妯┇姗辨姘旀埃娌℃矑娉ㄨɑ娴呮泛娴嬫脯娴忕?忔父閬婃粴婊炬弧婊跨伅鐕堢伒闈堢偣榛炵儹鐔辩姸鐙?鐙崹鐜挵鐜扮従鐢甸浕鐢荤暙鐩戠洠鐩栬搵鐩樼洡鐮栫纭⒑绂婚洟绉⿳绉扮ū绔栬睅绛戠瘔绛剧堡绫婚绾︾磩绾х礆绾跨窔缁撶祼缁曠篂缁樼躬缁欑郸缁熺当缁х辜缁跨稜缂?缍寸紪绶ㄧ紳绺缉绺綉缍茶仈鑱剼鑵宠幏鐛茶櫄铏涜瑁濊瑕嬭瑕栬瑕借Е瑙歌瑷堣瑾嶈璁撹璀拌瑷樿瑷瘑璀樿瘧璀瑭茶瑾炶璜嬭璁?璋冭璐熻矤璐ユ晽璐ㄨ唱璐磋布璧惰稌杞綁杞吉杞粺杞磋桓杞昏紩杞借級杈冭純杈呰紨杈戣集杈归倞杩囬亷杩欓?欒繘閫茶繙閬犻?傞仼閫夐伕閭婚劙閲岃！閽堥嚌閽㈤嫾閽垥閾伴壐閾洪嫪閿?閵烽攣閹栭敭閸甸暅閺￠暱闀烽棬闁?闂枆闂查枓闂撮枔闃呴柋闃抽櫧闃撮櫚闃堕殠闅忛毃闅愰毐闈欓潨椤甸爜椤堕爞椤归爡椤洪爢棰滈椋橀椋為椹Μ楦熼偿榻愰綂榫欓緧').match(/../gu).map(p => [...p]));
+// 简 → 繁：先按词替换一字多义的字，再逐字查表（表由 OpenCC s2tw 按本页用到的字生成）
+const S2T_PHRASES = [['布置','佈置'],['布局','佈局'],['台面','檯面'],['复制','複製']];
+const S2T = new Map(('与與两兩个個为為书書于於仅僅从從价價会會传傳体體余餘侧側倾傾储儲儿兒关關内內写寫净淨准準击擊则則刚剛删刪制製办辦动動势勢区區单單占佔卧臥卫衛厅廳历歷压壓厨廚双雙发發变變叶葉后後吗嗎听聽启啟哑啞围圍图圖圆圓场場坐座块塊垫墊墙牆处處备備复復头頭妆妝婴嬰实實宽寬对對导導层層屉屜属屬岛島带帶干乾并並库庫应應开開当當径徑态態总總悬懸懒懶户戶护護拟擬择擇挂掛挡擋挤擠损損换換据據摆擺摇搖撑撐数數无無时時显顯暂暫机機杂雜杆桿条條来來松鬆构構柜櫃标標栈棧栏欄样樣梁樑棱稜椭橢横橫橱櫥气氣没沒注註浅淺测測浏瀏游遊滚滾满滿灯燈灵靈点點热熱状狀独獨环環现現电電画畫监監盖蓋盘盤砖磚确確离離积積称稱竖豎筑築签籤类類约約级級线線结結绕繞绘繪给給统統继繼绿綠缀綴编編缝縫缩縮网網联聯脚腳获獲虚虛装裝见見视視览覽触觸计計认認让讓议議记記设設识識译譯该該语語请請读讀调調负負败敗质質贴貼赶趕转轉轮輪软軟轴軸轻輕载載较較辅輔辑輯边邊过過这這进進远遠适適选選邻鄰里裡针針钢鋼钮鈕铰鉸铺鋪销銷锁鎖键鍵镜鏡长長门門闭閉闲閒间間阅閱阳陽阴陰阶階随隨隐隱静靜页頁顶頂项項顺順颜顏飘飄飞飛马馬鸟鳥齐齊龙龍').match(/../gu).map(p => [...p]));
 const s2t = s => S2T_PHRASES.reduce((a, [f, t]) => a.replaceAll(f, t), s).replace(/[\u3400-\u9fff]/g, c => S2T.get(c) || c);
 const tr = (zh, en) => LANG === 'en' ? en : LANG === 'zht' ? s2t(zh) : zh;
-// 鍐呯疆鐨勬埧闂? / 鏉愭枡 / 瀹跺叿鍚嶇О瀛樼殑鏄腑鏂囷紱鑻辨枃鐣岄潰涓嬫樉绀鸿瘧鍚嶏紝鐢ㄦ埛鑷繁鏀硅繃鐨勫悕绉板師鏍锋樉绀?
+// 内置的房间 / 材料 / 家具名称存的是中文；英文界面下显示译名，用户自己改过的名称原样显示
 const NAMES_EN = {
-  '涓诲崸瀹?':'Master Bedroom', '涓诲崼娴?':'Master Bath', '灏忓鎴?':"Kids' Room", '瀹㈠崼娴?':'Guest Bath', '娲楄。闃冲彴':'Laundry Balcony',
-  '瀛愬コ鎴?':"Children's Room", '鍘ㄦ埧':'Kitchen', '椁愬巺':'Dining', '杩囬亾':'Hallway', '瀹㈠巺':'Living Room', '浼戦棽闃冲彴':'Leisure Balcony',
-  '涓诲崸椋樼獥':'Master Bay Window', '瀛愬コ鎴块绐?':"Children's Bay Window",
-  '姗℃湪鍦版澘':'Oak Flooring', '鑳℃鏈ㄥ湴鏉?':'Walnut Flooring', '800 鍦扮爾':'800 Tile', '600 鍦扮爾':'600 Tile', '澶х悊鐭?':'Marble',
-  '300 闃叉粦鐮?':'300 Anti-slip Tile', '姘寸（鐭?':'Terrazzo', '婊￠摵鍦版':'Wall-to-wall Carpet',
-  '鍗у':'Bedroom', '椁愬帹':'Dining & Kitchen', '鍗荡':'Bathroom', '瀹剁數':'Appliances', '涔︽埧 路 浼戦棽':'Study & Leisure',
-  '鍙屼汉搴? 1.8m':'Double Bed 1.8m', '鍙屼汉搴? 1.5m':'Double Bed 1.5m', '鍙屼汉搴?':'Double Bed', '鍗曚汉搴?':'Single Bed', '濠村効搴?':'Crib',
-  '搴婂ご鏌?':'Nightstand', '琛ｆ煖':'Wardrobe', '灏忚。鏌?':'Small Wardrobe', '姊冲鍙?':'Dresser', '涔︽':'Desk', '妞呭瓙':'Chair',
-  '涔︽灦':'Bookshelf', '椋樼獥鍨?':'Bay Cushion', '涓変汉娌欏彂':'3-Seat Sofa', '鍙屼汉娌欏彂':'Loveseat', '杞娌欏彂':'Corner Sofa',
-  '鍗曚汉娌欏彂':'Armchair', '鎳掍汉娌欏彂':'Beanbag', '鑼跺嚑':'Coffee Table', '杈瑰嚑':'Side Table', '鐢佃鏌?':'TV Stand', '鍦版':'Rug',
-  '闉嬫煖':'Shoe Cabinet', '鐜勫叧鏌?':'Entry Cabinet', '钀藉湴鐏?':'Floor Lamp', '缁挎':'Plant', '澶х豢妞?':'Large Plant',
-  '椁愭':'Dining Table', '鍏汉椁愭':'6-Seat Dining Table', '鍦嗘':'Round Table', '椁愭':'Dining Chair', '宀涘彴':'Kitchen Island',
-  '鍚ф':'Bar Stool', '姗辨煖鍙伴潰':'Kitchen Counter', '鐕冩皵鐏?':'Gas Stove', '姘存Ы':'Sink', '鍐扮':'Fridge', '椁愯竟鏌?':'Sideboard',
-  '椹《':'Toilet', '娴村鏌?':'Vanity', '鍙岀泦娴村鏌?':'Double Vanity', '娣嬫荡鎴?':'Shower', '娣嬫荡鍖?':'Shower Area', '娴寸几':'Bathtub',
-  '娲楄。鏈?':'Washer', '娲楄。姹?':'Laundry Sink', '鐢电儹姘村櫒':'Water Heater', '鍌ㄧ墿鏌?':'Storage Cabinet', '65 瀵哥數瑙?':'65" TV',
-  '55 瀵哥數瑙?':'55" TV', '瀵瑰紑闂ㄥ啺绠?':'French-door Fridge', '鏌滄満绌鸿皟':'Floor AC', '鎸傛満绌鸿皟':'Wall AC', '娲楃鏈?':'Dishwasher',
-  '钂哥儰绠遍珮鏌?':'Oven Tower', '鐑樺共鏈?':'Dryer', '绌烘皵鍑?鍖栧櫒':'Air Purifier', '闀夸功妗?':'Long Desk', '鍔炲叕妞?':'Office Chair',
-  '澶т功鏋?':'Large Bookshelf', '绔嬪紡閽㈢惔':'Upright Piano', '璺戞鏈?':'Treadmill', '闃呰妞?':'Reading Chair', '鑼舵':'Tea Table', '浼戦棽妞?':'Lounge Chair',
+  '主卧室':'Master Bedroom', '主卫浴':'Master Bath', '小孩房':"Kids' Room", '客卫浴':'Guest Bath', '洗衣阳台':'Laundry Balcony',
+  '子女房':"Children's Room", '厨房':'Kitchen', '餐厅':'Dining', '过道':'Hallway', '客厅':'Living Room', '休闲阳台':'Leisure Balcony',
+  '主卧飘窗':'Master Bay Window', '子女房飘窗':"Children's Bay Window",
+  '橡木地板':'Oak Flooring', '胡桃木地板':'Walnut Flooring', '800 地砖':'800 Tile', '600 地砖':'600 Tile', '大理石':'Marble',
+  '300 防滑砖':'300 Anti-slip Tile', '水磨石':'Terrazzo', '满铺地毯':'Wall-to-wall Carpet',
+  '卧室':'Bedroom', '餐厨':'Dining & Kitchen', '卫浴':'Bathroom', '家电':'Appliances', '书房 · 休闲':'Study & Leisure',
+  '双人床 1.8m':'Double Bed 1.8m', '双人床 1.5m':'Double Bed 1.5m', '双人床':'Double Bed', '单人床':'Single Bed', '婴儿床':'Crib',
+  '床头柜':'Nightstand', '衣柜':'Wardrobe', '小衣柜':'Small Wardrobe', '梳妆台':'Dresser', '书桌':'Desk', '椅子':'Chair',
+  '书架':'Bookshelf', '飘窗垫':'Bay Cushion', '三人沙发':'3-Seat Sofa', '双人沙发':'Loveseat', '转角沙发':'Corner Sofa',
+  '单人沙发':'Armchair', '懒人沙发':'Beanbag', '茶几':'Coffee Table', '边几':'Side Table', '电视柜':'TV Stand', '地毯':'Rug',
+  '鞋柜':'Shoe Cabinet', '玄关柜':'Entry Cabinet', '落地灯':'Floor Lamp', '绿植':'Plant', '大绿植':'Large Plant',
+  '餐桌':'Dining Table', '六人餐桌':'6-Seat Dining Table', '圆桌':'Round Table', '餐椅':'Dining Chair', '岛台':'Kitchen Island',
+  '吧椅':'Bar Stool', '橱柜台面':'Kitchen Counter', '燃气灶':'Gas Stove', '水槽':'Sink', '冰箱':'Fridge', '餐边柜':'Sideboard',
+  '马桶':'Toilet', '浴室柜':'Vanity', '双盆浴室柜':'Double Vanity', '淋浴房':'Shower', '淋浴区':'Shower Area', '浴缸':'Bathtub',
+  '洗衣机':'Washer', '洗衣池':'Laundry Sink', '电热水器':'Water Heater', '储物柜':'Storage Cabinet', '65 寸电视':'65" TV',
+  '55 寸电视':'55" TV', '对开门冰箱':'French-door Fridge', '柜机空调':'Floor AC', '挂机空调':'Wall AC', '洗碗机':'Dishwasher',
+  '蒸烤箱高柜':'Oven Tower', '烘干机':'Dryer', '空气净化器':'Air Purifier', '长书桌':'Long Desk', '办公椅':'Office Chair',
+  '大书架':'Large Bookshelf', '立式钢琴':'Upright Piano', '跑步机':'Treadmill', '阅读椅':'Reading Chair', '茶桌':'Tea Table', '休闲椅':'Lounge Chair',
 };
 const nm = s => LANG === 'en' ? (NAMES_EN[s] ?? s) : LANG === 'zht' ? s2t(s) : s;
-// 闈欐?佹枃妗堬細鍏冪礌涓婂啓 data-en / data-en-title锛屼腑鏂囧師鏂囬娆″垏鎹㈡椂瀛樿繘 dataset
+// 静态文案：元素上写 data-en / data-en-title，中文原文首次切换时存进 dataset
 function applyStaticLang(){
   document.documentElement.lang = {zh:'zh-CN', zht:'zh-TW', en:'en'}[LANG];
-  document.title = tr('鎴峰瀷瑁呬慨璁捐', 'Floor Plan Designer');
+  document.title = tr('户型装修设计', 'Floor Plan Designer');
   document.querySelectorAll('[data-en]').forEach(el => { el.dataset.zh ??= el.textContent; el.textContent = tr(el.dataset.zh, el.dataset.en); });
   document.querySelectorAll('[data-en-title]').forEach(el => { el.dataset.zhTitle ??= el.title; el.title = tr(el.dataset.zhTitle, el.dataset.enTitle); });
   document.querySelectorAll('#langSel [data-lang]').forEach(b => { const on = b.dataset.lang === LANG; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
 }
 
 /* ============================================================
- * yshzhang 鑷畾涔夋埛鍨? 路 2026-10-20
- * 灏哄鍗曚綅 mm銆傛í鍚戦儴鍒嗗昂瀵哥敱骞抽潰鍥炬瘮渚嬫帹绠楋紱绾靛悜閾惧悎璁? 14240銆?
- * A涔︽埧/B鍘ㄦ埧/C瀹㈤鍘?/D鍗敓闂?/E娆″崸/F鍗敓闂?/G涓诲崸/H闃冲彴銆?
- * 鍏ユ埛闂ㄤ负宸︿笂璁惧骞冲彴闄勮繎锛涙墍鏈夐棬绐楁礊鍙ｃ?侀潪鎵块噸灞炴?у潎寰呯幇鍦烘祴閲忓鏍搞??
- * 鍥句腑榛戣壊鏋勪欢 b 浠呭仛淇濆畧鐨勪笉鍙媶鍊欓?夛紝涓嶆槸缁撴瀯閴村畾缁撴灉銆?
- * 浠呯敤浜庤淇竷灞?瑙勫垝锛屼笉鐢ㄤ簬鏂藉伐銆佹媶鏀瑰鎵广?侀潰绉粨绠椼??
+ * yshzhang 自定义户型 · 2026-10-20
+ * 尺寸单位 mm。横向部分尺寸由平面图比例推算；纵向链合计 14240。
+ * A书房/B厨房/C客餐厅/D卫生间/E次卧/F卫生间/G主卧/H阳台。
+ * 入户门为左上设备平台附近；所有门窗洞口、非承重属性均待现场测量复核。
+ * 图中黑色构件 b 仅做保守的不可拆候选，不是结构鉴定结果。
+ * 仅用于装修布局规划，不用于施工、拆改审批、面积结算。
  * ============================================================ */
-// 澧欎綋 [x0,y0,x1,y1,绫诲瀷] e=澶栧洿澧?; b=鏆傛寜涓嶅彲鎷?; n=鏅?氶殧澧欙紙鍚屾牱涓嶈兘鏈粡鏍稿疄鎷嗛櫎锛?
+// 墙体 [x0,y0,x1,y1,类型] e=外围墙; b=暂按不可拆; n=普通隔墙（同样不能未经核实拆除）
 const WALLS = [
   [0,-180,1930,0,'e'],
   [3660,-180,6200,0,'e'],
@@ -441,64 +441,64 @@ const WINS = [
   [4420,14240,6200,14420],
 ];
 const DOORS = [
-  {name:'鍏ユ埛闂紙宸︿笂渚э級',rect:[760,2690,1700,2840],h:[1700,2800],c:[-1,0],o:[0,1],len:940,entry:true},
+  {name:'入户门（左上侧）',rect:[760,2690,1700,2840],h:[1700,2800],c:[-1,0],o:[0,1],len:940,entry:true},
 ];
 const SLIDES = [
   {rect:[640,12460,2660,12600],v:false},
 ];
 const R = (x0,y0,x1,y1) => [[x0,y0],[x1,y0],[x1,y1],[x0,y1]];
 const ROOMS = [
-  {id:"study", name:"涔︽埧", poly:R(1850,0,4100,2780), mat:"wood", at:[2980,1530]},
-  {id:"kitchen", name:"鍘ㄦ埧", poly:R(4220,0,6200,2780), mat:"tile600", at:[5210,1550]},
-  {id:"living_dining", name:"瀹㈤鍘?", poly:R(1840,2890,6200,7900), mat:"tile800", at:[3960,5060]},
-  {id:"bath_1", name:"鍗敓闂? D", poly:R(0,6530,1700,9030), mat:"antislip", at:[870,7800]},
-  {id:"bed_2", name:"娆″崸", poly:R(0,9160,2850,12460), mat:"wood", at:[1410,10930]},
-  {id:"bath_2", name:"鍗敓闂? F", poly:R(4170,8080,6200,9960), mat:"antislip", at:[5240,9000]},
-  {id:"bed_master", name:"涓诲崸", poly:R(2980,10080,6200,13500), mat:"wood", at:[4660,11740]},
-  {id:"corridor", name:"杩囬亾锛堜及娴嬶級", poly:[[1840, 8080], [4050, 8080], [4050, 9110], [2980, 9110], [2980, 9960], [1840, 9960]], mat:"tile800", at:[3220,8540]},
-  {id:"balcony", name:"闃冲彴", poly:R(0,12600,2850,14240), mat:"antislip", at:[1430,13410]},
-  {id:"utility_top", name:"涓婇儴璁惧骞冲彴", poly:R(0,0,1700,2690), mat:"antislip", counted:false, exterior:true, at:[800,1400]},
-  {id:"utility_bottom", name:"涓嬮儴璁惧骞冲彴", poly:R(3060,13640,4300,14240), mat:"antislip", counted:false, exterior:true},
+  {id:"study", name:"书房", poly:R(1850,0,4100,2780), mat:"wood", at:[2980,1530]},
+  {id:"kitchen", name:"厨房", poly:R(4220,0,6200,2780), mat:"tile600", at:[5210,1550]},
+  {id:"living_dining", name:"客餐厅", poly:R(1840,2890,6200,7900), mat:"tile800", at:[3960,5060]},
+  {id:"bath_1", name:"卫生间 D", poly:R(0,6530,1700,9030), mat:"antislip", at:[870,7800]},
+  {id:"bed_2", name:"次卧", poly:R(0,9160,2850,12460), mat:"wood", at:[1410,10930]},
+  {id:"bath_2", name:"卫生间 F", poly:R(4170,8080,6200,9960), mat:"antislip", at:[5240,9000]},
+  {id:"bed_master", name:"主卧", poly:R(2980,10080,6200,13500), mat:"wood", at:[4660,11740]},
+  {id:"corridor", name:"过道（估测）", poly:[[1840, 8080], [4050, 8080], [4050, 9110], [2980, 9110], [2980, 9960], [1840, 9960]], mat:"tile800", at:[3220,8540]},
+  {id:"balcony", name:"阳台", poly:R(0,12600,2850,14240), mat:"antislip", at:[1430,13410]},
+  {id:"utility_top", name:"上部设备平台", poly:R(0,0,1700,2690), mat:"antislip", counted:false, exterior:true, at:[800,1400]},
+  {id:"utility_bottom", name:"下部设备平台", poly:R(3060,13640,4300,14240), mat:"antislip", counted:false, exterior:true},
 ];
 const MATS = {
-  wood:    {name:'姗℃湪鍦版澘', price:320, sw:'#d8b88a'},
-  walnut:  {name:'鑳℃鏈ㄥ湴鏉?', price:380, sw:'#9b7250'},
-  tile800: {name:'800 鍦扮爾', price:220, sw:'#ebe6dc'},
-  tile600: {name:'600 鍦扮爾', price:160, sw:'#dfe3e1'},
-  marble:  {name:'澶х悊鐭?', price:650, sw:'#f1eee8'},
-  antislip:{name:'300 闃叉粦鐮?', price:140, sw:'#d3d8d4'},
-  terrazzo:{name:'姘寸（鐭?', price:280, sw:'#e6dfd3'},
-  carpet:  {name:'婊￠摵鍦版', price:200, sw:'#c9c3d3'},
+  wood:    {name:'橡木地板', price:320, sw:'#d8b88a'},
+  walnut:  {name:'胡桃木地板', price:380, sw:'#9b7250'},
+  tile800: {name:'800 地砖', price:220, sw:'#ebe6dc'},
+  tile600: {name:'600 地砖', price:160, sw:'#dfe3e1'},
+  marble:  {name:'大理石', price:650, sw:'#f1eee8'},
+  antislip:{name:'300 防滑砖', price:140, sw:'#d3d8d4'},
+  terrazzo:{name:'水磨石', price:280, sw:'#e6dfd3'},
+  carpet:  {name:'满铺地毯', price:200, sw:'#c9c3d3'},
 };
-// 瀹跺叿搴擄細[绫诲瀷, 鍚嶇О, 瀹?, 娣?, 棰滆壊]
+// 家具库：[类型, 名称, 宽, 深, 颜色]
 const LIB = [
-  {cat:'鍗у', items:[
-    ['bed','鍙屼汉搴? 1.8m',1800,2000,'#c9d6df'],['bed','鍙屼汉搴? 1.5m',1500,2000,'#d8c7dc'],['bed','鍗曚汉搴?',1200,2000,'#e8d5b5'],
-    ['crib','濠村効搴?',1250,700,'#efe3d0'],['nightstand','搴婂ご鏌?',450,400,'#e8dccb'],['wardrobe','琛ｆ煖',2000,600,'#efe6d8'],
-    ['wardrobe','灏忚。鏌?',1200,550,'#efe6d8'],['dresser','姊冲鍙?',1000,450,'#efe6d8'],['desk','涔︽',1200,600,'#e2cfb4'],
-    ['chair','妞呭瓙',450,480,'#cfc6b8'],['bookshelf','涔︽灦',800,300,'#e2cfb4'],['baycushion','椋樼獥鍨?',520,1800,'#e7dccd']]},
-  {cat:'瀹㈠巺', items:[
-    ['sofa','涓変汉娌欏彂',2400,900,'#b7c4b0'],['sofa','鍙屼汉娌欏彂',1700,880,'#c3cbd6'],['cornersofa','杞娌欏彂',2800,1700,'#b7c4b0'],
-    ['armchair','鍗曚汉娌欏彂',850,850,'#d6b99a'],['beanbag','鎳掍汉娌欏彂',800,800,'#e0b98f'],['coffeetable','鑼跺嚑',1300,650,'#e8dccb'],
-    ['sidetable','杈瑰嚑',500,500,'#d9c3a3'],['tvstand','鐢佃鏌?',2400,400,'#e2cfb4'],['rug','鍦版',2400,1700,'#d9cbb8'],
-    ['shoecab','闉嬫煖',1000,350,'#efe6d8'],['shoecab','鐜勫叧鏌?',1400,380,'#e6dccc'],['floorlamp','钀藉湴鐏?',450,450,'#3d3a34'],
-    ['plant','缁挎',500,500,'#a9c39b'],['plant','澶х豢妞?',700,700,'#9dbb8c']]},
-  {cat:'椁愬帹', items:[
-    ['table','椁愭',1400,800,'#e2cfb4'],['table','鍏汉椁愭',1800,900,'#d8c2a2'],['roundtable','鍦嗘',1000,1000,'#e2cfb4'],
-    ['chair','椁愭',450,480,'#cfc6b8'],['island','宀涘彴',1800,900,'#e9e5de'],['barstool','鍚ф',420,420,'#6b5d4c'],
-    ['counter','姗辨煖鍙伴潰',1600,600,'#e9e5de'],['stove','鐕冩皵鐏?',750,450,'#dcdcdc'],['ksink','姘存Ы',800,450,'#e1e6ea'],
-    ['fridge','鍐扮',700,700,'#dfe4e8'],['cabinet','椁愯竟鏌?',1600,400,'#efe6d8']]},
-  {cat:'鍗荡', items:[
-    ['toilet','椹《',400,700,'#ffffff'],['vanity','娴村鏌?',800,500,'#eef1f3'],['vanity','鍙岀泦娴村鏌?',1200,500,'#eef1f3'],
-    ['shower','娣嬫荡鎴?',900,900,'#e4edf2'],['bathtub','娴寸几',1600,750,'#eef3f6'],['washer','娲楄。鏈?',600,600,'#e6ebee'],
-    ['waterheater','鐢电儹姘村櫒',800,450,'#f4f4f2'],['cabinet','鍌ㄧ墿鏌?',1000,400,'#efe6d8']]},
-  {cat:'瀹剁數', items:[
-    ['tv','65 瀵哥數瑙?',1450,80,'#1d1d1f'],['tv','55 瀵哥數瑙?',1230,80,'#1d1d1f'],['fridge','瀵瑰紑闂ㄥ啺绠?',910,700,'#c9ced3'],
-    ['aircon','鏌滄満绌鸿皟',500,380,'#f6f7f8'],['acwall','鎸傛満绌鸿皟',900,250,'#f6f7f8'],['dishwasher','娲楃鏈?',600,600,'#c9ced3'],
-    ['ovencol','钂哥儰绠遍珮鏌?',600,600,'#efe6d8'],['dryer','鐑樺共鏈?',600,600,'#e6ebee'],['purifier','绌烘皵鍑?鍖栧櫒',400,300,'#f4f4f2']]},
-  {cat:'涔︽埧 路 浼戦棽', items:[
-    ['desk','闀夸功妗?',1600,700,'#d8c2a2'],['officechair','鍔炲叕妞?',620,620,'#4a4f55'],['bookshelf','澶т功鏋?',1600,350,'#e2cfb4'],
-    ['piano','绔嬪紡閽㈢惔',1500,600,'#1f1d1b'],['treadmill','璺戞鏈?',800,1800,'#3a3a3c'],['armchair','闃呰妞?',750,800,'#c9a98a']]},
+  {cat:'卧室', items:[
+    ['bed','双人床 1.8m',1800,2000,'#c9d6df'],['bed','双人床 1.5m',1500,2000,'#d8c7dc'],['bed','单人床',1200,2000,'#e8d5b5'],
+    ['crib','婴儿床',1250,700,'#efe3d0'],['nightstand','床头柜',450,400,'#e8dccb'],['wardrobe','衣柜',2000,600,'#efe6d8'],
+    ['wardrobe','小衣柜',1200,550,'#efe6d8'],['dresser','梳妆台',1000,450,'#efe6d8'],['desk','书桌',1200,600,'#e2cfb4'],
+    ['chair','椅子',450,480,'#cfc6b8'],['bookshelf','书架',800,300,'#e2cfb4'],['baycushion','飘窗垫',520,1800,'#e7dccd']]},
+  {cat:'客厅', items:[
+    ['sofa','三人沙发',2400,900,'#b7c4b0'],['sofa','双人沙发',1700,880,'#c3cbd6'],['cornersofa','转角沙发',2800,1700,'#b7c4b0'],
+    ['armchair','单人沙发',850,850,'#d6b99a'],['beanbag','懒人沙发',800,800,'#e0b98f'],['coffeetable','茶几',1300,650,'#e8dccb'],
+    ['sidetable','边几',500,500,'#d9c3a3'],['tvstand','电视柜',2400,400,'#e2cfb4'],['rug','地毯',2400,1700,'#d9cbb8'],
+    ['shoecab','鞋柜',1000,350,'#efe6d8'],['shoecab','玄关柜',1400,380,'#e6dccc'],['floorlamp','落地灯',450,450,'#3d3a34'],
+    ['plant','绿植',500,500,'#a9c39b'],['plant','大绿植',700,700,'#9dbb8c']]},
+  {cat:'餐厨', items:[
+    ['table','餐桌',1400,800,'#e2cfb4'],['table','六人餐桌',1800,900,'#d8c2a2'],['roundtable','圆桌',1000,1000,'#e2cfb4'],
+    ['chair','餐椅',450,480,'#cfc6b8'],['island','岛台',1800,900,'#e9e5de'],['barstool','吧椅',420,420,'#6b5d4c'],
+    ['counter','橱柜台面',1600,600,'#e9e5de'],['stove','燃气灶',750,450,'#dcdcdc'],['ksink','水槽',800,450,'#e1e6ea'],
+    ['fridge','冰箱',700,700,'#dfe4e8'],['cabinet','餐边柜',1600,400,'#efe6d8']]},
+  {cat:'卫浴', items:[
+    ['toilet','马桶',400,700,'#ffffff'],['vanity','浴室柜',800,500,'#eef1f3'],['vanity','双盆浴室柜',1200,500,'#eef1f3'],
+    ['shower','淋浴房',900,900,'#e4edf2'],['bathtub','浴缸',1600,750,'#eef3f6'],['washer','洗衣机',600,600,'#e6ebee'],
+    ['waterheater','电热水器',800,450,'#f4f4f2'],['cabinet','储物柜',1000,400,'#efe6d8']]},
+  {cat:'家电', items:[
+    ['tv','65 寸电视',1450,80,'#1d1d1f'],['tv','55 寸电视',1230,80,'#1d1d1f'],['fridge','对开门冰箱',910,700,'#c9ced3'],
+    ['aircon','柜机空调',500,380,'#f6f7f8'],['acwall','挂机空调',900,250,'#f6f7f8'],['dishwasher','洗碗机',600,600,'#c9ced3'],
+    ['ovencol','蒸烤箱高柜',600,600,'#efe6d8'],['dryer','烘干机',600,600,'#e6ebee'],['purifier','空气净化器',400,300,'#f4f4f2']]},
+  {cat:'书房 · 休闲', items:[
+    ['desk','长书桌',1600,700,'#d8c2a2'],['officechair','办公椅',620,620,'#4a4f55'],['bookshelf','大书架',1600,350,'#e2cfb4'],
+    ['piano','立式钢琴',1500,600,'#1f1d1b'],['treadmill','跑步机',800,1800,'#3a3a3c'],['armchair','阅读椅',750,800,'#c9a98a']]},
 ];
 const typeColor = t => { for (const c of LIB) for (const i of c.items) if (i[0]===t) return i[4]; return '#eee'; };
 
@@ -526,15 +526,15 @@ function fixState(s){
 }
 
 const PX_MM = 25.4 / 96;                       // 1 CSS px = 0.2646 mm
-const COARSE = matchMedia('(pointer:coarse)').matches;   // iPad / 鎵嬫満绛夎Е灞忎负涓荤殑璁惧
-const TAP = COARSE ? 9 : 4;                    // 鎵嬫寚鎸変笅鍚庣Щ鍔ㄨ秴杩囪鍍忕礌鎵嶇畻鎷栧姩
+const COARSE = matchMedia('(pointer:coarse)').matches;   // iPad / 手机等触屏为主的设备
+const TAP = COARSE ? 9 : 4;                    // 手指按下后移动超过该像素才算拖动
 const narrow = () => matchMedia('(max-width:1100px)').matches;
 const BOUNDS = {x:-1200, y:-1250, w:9000, h:16900};
 const $ = s => document.querySelector(s);
 const svg = $('#plan');
 
 
-/* ======================= 鐘舵?? / 鍘嗗彶 / 瀛樺偍 ======================= */
+/* ======================= 状态 / 历史 / 存储 ======================= */
 let state = load() || defaultState();
 const ui = {tool:'select', sel:null, mA:null, mCur:null,
   layers:{dims:true, labels:true, furn:true, grid:false, bearing:false, wallSnap:true}};
@@ -545,12 +545,12 @@ function save(){ try { localStorage.setItem(STORE, JSON.stringify(state)); } cat
 const snap = () => JSON.stringify(state);
 function commit(before){ undoStack.push(before); if (undoStack.length > 150) undoStack.shift(); redoStack.length = 0; save(); }
 function mutate(fn){ const b = snap(); fn(); commit(b); renderAll(); }
-function undo(){ if (!undoStack.length) return toast(tr('娌℃湁鍙挙閿?鐨勬搷浣?', 'Nothing to undo')); redoStack.push(snap()); state = JSON.parse(undoStack.pop()); validateSel(); save(); renderAll(); }
+function undo(){ if (!undoStack.length) return toast(tr('没有可撤销的操作', 'Nothing to undo')); redoStack.push(snap()); state = JSON.parse(undoStack.pop()); validateSel(); save(); renderAll(); }
 function redo(){ if (!redoStack.length) return; undoStack.push(snap()); state = JSON.parse(redoStack.pop()); validateSel(); save(); renderAll(); }
 function validateSel(){ if (ui.sel?.kind==='furn' && !getF(ui.sel.id)) ui.sel = null; }
 const getF = id => state.furniture.find(f => f.id === id);
 
-/* ======================= 鍑犱綍宸ュ叿 ======================= */
+/* ======================= 几何工具 ======================= */
 const area = poly => Math.abs(poly.reduce((a,p,i) => { const q = poly[(i+1)%poly.length]; return a + p[0]*q[1] - q[0]*p[1]; }, 0)) / 2 / 1e6;
 const perim = poly => poly.reduce((a,p,i) => { const q = poly[(i+1)%poly.length]; return a + Math.hypot(q[0]-p[0], q[1]-p[1]); }, 0) / 1000;
 const bbox = poly => { const xs = poly.map(p=>p[0]), ys = poly.map(p=>p[1]); return [Math.min(...xs),Math.min(...ys),Math.max(...xs),Math.max(...ys)]; };
@@ -559,7 +559,7 @@ const fmt = (n, d=2) => n.toFixed(d);
 const norm = a => ((Math.round(a) % 360) + 360) % 360;
 function snapRects(){ return WALLS.filter((w,i) => !state.demolished.includes('w'+i)).concat(WINS); }
 
-/* ======================= 棰滆壊 / 鏉愯川鍥炬 ======================= */
+/* ======================= 颜色 / 材质图案 ======================= */
 function hex2rgb(h){ h = h.replace('#',''); if (h.length===3) h = h.split('').map(c=>c+c).join(''); const n = parseInt(h,16); return [(n>>16)&255,(n>>8)&255,n&255]; }
 function shade(h,k){ const f = v => Math.max(0,Math.min(255,Math.round(k>1 ? v+(255-v)*(k-1)*2 : v*k))); return '#'+hex2rgb(h).map(v=>f(v).toString(16).padStart(2,'0')).join(''); }
 
@@ -586,7 +586,7 @@ function buildDefs(){
       <path d="M500 0V1000M0 500H1000" stroke="#e5dfd3" stroke-width="8"/><path d="M0 0V1000M0 0H1000" stroke="#d8d0c1" stroke-width="14"/></pattern>`;
 }
 
-/* ======================= 瀹跺叿鍥句緥 ======================= */
+/* ======================= 家具图例 ======================= */
 const ST = 'stroke="#3d3a34" stroke-width="1" vector-effect="non-scaling-stroke"';
 const rc = (x,y,w,h,f,ex='') => `<rect x="${x}" y="${y}" width="${Math.max(0,w)}" height="${Math.max(0,h)}" fill="${f}" ${ST} ${ex}/>`;
 const ec = (cx,cy,rx,ry,f,ex='') => `<ellipse cx="${cx}" cy="${cy}" rx="${Math.max(0,rx)}" ry="${Math.max(0,ry)}" fill="${f}" ${ST} ${ex}/>`;
@@ -695,7 +695,7 @@ function furnSVG(t,w,d,c){
   }
 }
 
-/* ======================= 娓叉煋 ======================= */
+/* ======================= 渲染 ======================= */
 const NOLABEL = ['plant','floorlamp','sidetable','barstool','beanbag'];
 function renderRooms(){
   let s = '';
@@ -748,12 +748,12 @@ function renderOpenings(){
     if (v){ const L = y1-y0, m = (x0+x1)/2; s += `<rect x="${m-45}" y="${y0}" width="40" height="${L*.55}" fill="#fff" ${DS}/><rect x="${m+5}" y="${y1-L*.55}" width="40" height="${L*.55}" fill="#fff" ${DS}/>`; }
     else { const L = x1-x0, m = (y0+y1)/2; s += `<rect x="${x0}" y="${m-45}" width="${L*.55}" height="40" fill="#fff" ${DS}/><rect x="${x1-L*.55}" y="${m+5}" width="${L*.55}" height="40" fill="#fff" ${DS}/>`; }
   });
-  // 鏍规嵁鍏ユ埛闂ㄧ湡瀹炰綅缃敓鎴愭爣璁帮紝涓嶅啀浣跨敤鍘熸埛鍨嬬殑鍥哄畾浣嶇疆
+  // 根据入户门真实位置生成标记，不再使用原户型的固定位置
   const entry = DOORS.find(d => d.entry);
   if (entry){
     const [hx,hy] = entry.h;
     s += `<path d="M${hx-690} ${hy+500}h530m-120 -110l120 110 -120 110" fill="none" stroke="#b5653a" stroke-width="2" vector-effect="non-scaling-stroke"/>
-      <text x="${hx-680}" y="${hy+420}" font-size="205" fill="#b5653a">${tr('鍏ユ埛','Entry')}</text>`;
+      <text x="${hx-680}" y="${hy+420}" font-size="205" fill="#b5653a">${tr('入户','Entry')}</text>`;
   }
   $('#gOpen').innerHTML = s;
 }
@@ -764,7 +764,7 @@ function renderLabels(){
   g.innerHTML = ROOMS.filter(r => r.at).map(r => {
     const [x,y] = r.at, halo = 'stroke="#fbf9f4" stroke-width="45" paint-order="stroke" stroke-linejoin="round"';
     return `<text x="${x}" y="${y}" font-size="250" font-weight="600" text-anchor="middle" fill="#2b2824" ${halo}>${esc(nm(state.rooms[r.id].name))}</text>
-      <text x="${x}" y="${y+260}" font-size="175" text-anchor="middle" fill="#7d7366" ${halo}>${fmt(area(r.poly))} m虏</text>`;
+      <text x="${x}" y="${y+260}" font-size="175" text-anchor="middle" fill="#7d7366" ${halo}>${fmt(area(r.poly))} m²</text>`;
   }).join('');
 }
 
@@ -810,19 +810,19 @@ function renderSel(){
   if (ui.sel?.kind === 'furn'){
     const f = getF(ui.sel.id);
     if (f){
-      // 瑙﹀睆涓婃墜鏌勬洿澶с?佺瀹跺叿鏇磋繙锛屽苟鍚勫甫涓?鍦堥?忔槑鐨勫ぇ鐑尯
+      // 触屏上手柄更大、离家具更远，并各带一圈透明的大热区
       const p = 5*k, A = 'stroke="#b5653a" vector-effect="non-scaling-stroke"', hs = COARSE ? 1.7 : 1, ro = (COARSE ? 40 : 26)*k, hit = (COARSE ? 24 : 11)*k;
       const sx = f.w/2+p, sy = f.d/2+p;
       s += `<g transform="translate(${f.cx} ${f.cy}) rotate(${f.rot})">
         <rect x="${-f.w/2-p}" y="${-f.d/2-p}" width="${f.w+2*p}" height="${f.d+2*p}" fill="none" ${A} stroke-width="1.5" stroke-dasharray="5 3" pointer-events="none"/>
         <line x1="0" y1="${-f.d/2-p}" x2="0" y2="${-f.d/2-ro}" ${A} stroke-width="1" pointer-events="none"/>
         <circle data-handle="rot" cx="0" cy="${-f.d/2-ro}" r="${hit}" fill="transparent"/>
-        <circle data-handle="rot" cx="0" cy="${-f.d/2-ro}" r="${6*hs*k}" fill="#fff" ${A} stroke-width="1.5"><title>${tr('鎷栧姩鏃嬭浆锛圫hift 鑷敱瑙掑害锛?','Drag to rotate (Shift for free angle)')}</title></circle>
+        <circle data-handle="rot" cx="0" cy="${-f.d/2-ro}" r="${6*hs*k}" fill="#fff" ${A} stroke-width="1.5"><title>${tr('拖动旋转（Shift 自由角度）','Drag to rotate (Shift for free angle)')}</title></circle>
         <circle data-handle="size" cx="${sx}" cy="${sy}" r="${hit}" fill="transparent"/>
-        <rect data-handle="size" x="${sx-5*hs*k}" y="${sy-5*hs*k}" width="${10*hs*k}" height="${10*hs*k}" fill="#b5653a"><title>${tr('鎷栧姩璋冩暣灏哄','Drag to resize')}</title></rect></g>`;
+        <rect data-handle="size" x="${sx-5*hs*k}" y="${sy-5*hs*k}" width="${10*hs*k}" height="${10*hs*k}" fill="#b5653a"><title>${tr('拖动调整尺寸','Drag to resize')}</title></rect></g>`;
       const {hh} = aabb(f);
       s += `<text x="${f.cx}" y="${f.cy+hh+24*k}" font-size="${12*k}" text-anchor="middle" fill="#b5653a" font-weight="600" pointer-events="none"
-        stroke="#fff" stroke-width="${3*k}" paint-order="stroke">${f.w} 脳 ${f.d}</text>`;
+        stroke="#fff" stroke-width="${3*k}" paint-order="stroke">${f.w} × ${f.d}</text>`;
     }
   } else if (ui.sel?.kind === 'room'){
     const r = ROOMS.find(r => r.id === ui.sel.id);
@@ -838,12 +838,12 @@ function renderAll(){
 
 function updateHeader(){
   const tot = ROOMS.filter(r => r.counted !== false).reduce((a,r) => a + area(r.poly), 0);
-  $('#subtitle').textContent = tr(`濂楀唴浣跨敤闈㈢Н绾? ${fmt(tot)} m虏 路 灏哄鍗曚綅 mm 路 鍥剧焊灞?閮ㄥ昂瀵镐及娴媊, `Net floor area 鈮? ${fmt(tot)} m虏 路 Units: mm 路 Some dimensions estimated`);
+  $('#subtitle').textContent = tr(`套内使用面积约 ${fmt(tot)} m² · 尺寸单位 mm · 图纸局部尺寸估测`, `Net floor area ≈ ${fmt(tot)} m² · Units: mm · Some dimensions estimated`);
   $('#undo').disabled = !undoStack.length; $('#redo').disabled = !redoStack.length;
   $('#undo').style.opacity = undoStack.length ? 1 : .4; $('#redo').style.opacity = redoStack.length ? 1 : .4;
 }
 
-/* ======================= 鍙充晶闈㈡澘 ======================= */
+/* ======================= 右侧面板 ======================= */
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function renderPanel(){
@@ -858,36 +858,36 @@ function overviewPanel(){
   const rows = ROOMS.map(r => {
     const st = state.rooms[r.id];
     return `<tr class="click" data-room="${r.id}"><td><span class="sw" style="background:${MATS[st.mat].sw}"></span>${esc(nm(st.name))}${r.counted===false?' <span class="muted">*</span>':''}</td>
-      <td class="r">${fmt(area(r.poly))} m虏</td></tr>`;
+      <td class="r">${fmt(area(r.poly))} m²</td></tr>`;
   }).join('');
   const tot = ROOMS.filter(r => r.counted !== false).reduce((a,r) => a + area(r.poly), 0);
   const byMat = {};
   ROOMS.forEach(r => { const m = state.rooms[r.id].mat; byMat[m] = (byMat[m]||0) + area(r.poly); });
   let cost = 0;
   const matRows = Object.entries(byMat).map(([m,a]) => { const c = a*MATS[m].price*1.05; cost += c;
-    return `<tr><td><span class="sw" style="background:${MATS[m].sw}"></span>${nm(MATS[m].name)}</td><td class="r">${fmt(a,1)} m虏</td><td class="r">楼${Math.round(c).toLocaleString()}</td></tr>`; }).join('');
+    return `<tr><td><span class="sw" style="background:${MATS[m].sw}"></span>${nm(MATS[m].name)}</td><td class="r">${fmt(a,1)} m²</td><td class="r">¥${Math.round(c).toLocaleString()}</td></tr>`; }).join('');
   const dem = state.demolished.map(id => WALLS[+id.slice(1)]);
   const demLen = dem.reduce((a,w) => a + Math.max(w[2]-w[0], w[3]-w[1]), 0) / 1000;
   return `
-  <section><h3>${tr('鎴块棿闈㈢Н','Room Areas')} <small>${tr('鐐瑰嚮鏌ョ湅 / 鏇存崲鍦伴潰','Click to view / change flooring')}</small></h3>
+  <section><h3>${tr('房间面积','Room Areas')} <small>${tr('点击查看 / 更换地面','Click to view / change flooring')}</small></h3>
     <table>${rows}</table>
-    <div class="total"><span>${tr('濂楀唴浣跨敤闈㈢Н','Net floor area')}</span><b>${fmt(tot)} m虏</b></div>
-    <div class="muted" style="font-size:11px;margin-top:4px">${tr('* 椋樼獥涓嶈鍏ヤ娇鐢ㄩ潰绉紱闈㈢Н鎸夊綋鍓嶅缓妯″噣灏哄浼扮畻锛屼粎渚涘竷灞?鍙傝??','* Areas are estimated from the planning model, not for construction')}</div></section>
-  <section><h3>${tr('鍦伴潰鏉愭枡浼扮畻','Flooring Estimate')} <small>${tr('鍚? 5% 鎹熻??','incl. 5% waste')}</small></h3>
+    <div class="total"><span>${tr('套内使用面积','Net floor area')}</span><b>${fmt(tot)} m²</b></div>
+    <div class="muted" style="font-size:11px;margin-top:4px">${tr('* 飘窗不计入使用面积；面积按当前建模净尺寸估算，仅供布局参考','* Areas are estimated from the planning model, not for construction')}</div></section>
+  <section><h3>${tr('地面材料估算','Flooring Estimate')} <small>${tr('含 5% 损耗','incl. 5% waste')}</small></h3>
     <table>${matRows}</table>
-    <div class="total"><span>${tr('鍦伴潰鏉愭枡鍚堣','Flooring total')}</span><b>楼${Math.round(cost).toLocaleString()}</b></div></section>
-  <section><h3>${tr('鏂规缁熻','Plan Stats')}</h3>
-    <div class="stats"><div><small>${tr('瀹跺叿鏁伴噺','Furniture')}</small><span class="big">${state.furniture.length}</span></div>
-      <div><small>${tr('鎷嗛櫎澧欎綋','Walls removed')}</small><span class="big">${fmt(demLen,1)}</span> m</div></div>
-    <div class="actions"><button class="btn" id="clearMeasure">${tr('娓呴櫎娴嬮噺','Clear measures')} (${state.measures.length})</button>
-      <button class="btn danger" id="clearFurn">${tr('娓呯┖甯冪疆','Clear layout')}</button></div></section>
-  ${COARSE ? tr(`<section><h3>瑙﹀睆鎿嶄綔</h3><div class="kbd">
-    <kbd>鍗曟寚鎷栧姩</kbd><span>绌虹櫧澶勫钩绉荤敾闈?</span><kbd>鍙屾寚</kbd><span>鎹忓悎缂╂斁銆佹嫋鍔ㄥ钩绉?</span>
-    <kbd>瀹跺叿搴?</kbd><span>鐐逛竴涓嬫斁鍒扮敾闈腑澶紝鎴栨寜浣忓悜鍙虫嫋鍒版寚瀹氫綅缃?</span>
-    <kbd>鐐瑰鍏?</kbd><span>閫変腑鍚庢嫋鍔ㄧЩ鍔紱鎷栭《閮ㄥ渾鐐规棆杞?佸彸涓嬫柟鍧楁敼灏哄</span>
-    <kbd>宸ュ叿鏉?</kbd><span>閫変腑鍚庡簳閮ㄥ彲鏃嬭浆 / 澶嶅埗 / 鍒犻櫎</span>
-    <kbd>娴嬮噺</kbd><span>鎸変綇鎷栧嚭涓?鏉＄嚎锛屾垨渚濇鐐逛袱鐐?</span>
-    <kbd>3D 婕父</kbd><span>宸︿笅鎽囨潌绉诲姩锛屾嫋鍔ㄥ睆骞曡浆鍚戯紝鐐归棬寮?鍏?</span>
+    <div class="total"><span>${tr('地面材料合计','Flooring total')}</span><b>¥${Math.round(cost).toLocaleString()}</b></div></section>
+  <section><h3>${tr('方案统计','Plan Stats')}</h3>
+    <div class="stats"><div><small>${tr('家具数量','Furniture')}</small><span class="big">${state.furniture.length}</span></div>
+      <div><small>${tr('拆除墙体','Walls removed')}</small><span class="big">${fmt(demLen,1)}</span> m</div></div>
+    <div class="actions"><button class="btn" id="clearMeasure">${tr('清除测量','Clear measures')} (${state.measures.length})</button>
+      <button class="btn danger" id="clearFurn">${tr('清空布置','Clear layout')}</button></div></section>
+  ${COARSE ? tr(`<section><h3>触屏操作</h3><div class="kbd">
+    <kbd>单指拖动</kbd><span>空白处平移画面</span><kbd>双指</kbd><span>捏合缩放、拖动平移</span>
+    <kbd>家具库</kbd><span>点一下放到画面中央，或按住向右拖到指定位置</span>
+    <kbd>点家具</kbd><span>选中后拖动移动；拖顶部圆点旋转、右下方块改尺寸</span>
+    <kbd>工具条</kbd><span>选中后底部可旋转 / 复制 / 删除</span>
+    <kbd>测量</kbd><span>按住拖出一条线，或依次点两点</span>
+    <kbd>3D 漫游</kbd><span>左下摇杆移动，拖动屏幕转向，点门开关</span>
   </div></section>`, `<section><h3>Touch Controls</h3><div class="kbd">
     <kbd>1-finger drag</kbd><span>Pan on empty space</span><kbd>2 fingers</kbd><span>Pinch to zoom, drag to pan</span>
     <kbd>Library</kbd><span>Tap to place at center, or hold and drag right to a spot</span>
@@ -896,14 +896,14 @@ function overviewPanel(){
     <kbd>Measure</kbd><span>Hold and drag a line, or tap two points</span>
     <kbd>3D walk</kbd><span>Joystick moves, drag to look, tap doors to open</span>
   </div></section>`) : ''}
-  ${tr(`<section><h3>閿洏蹇嵎閿?</h3><div class="kbd">
-    <kbd>鎷栨嫿</kbd><span>宸︿晶瀹跺叿鎷栧叆骞抽潰鍥?</span><kbd>V</kbd><span>閫夋嫨 / 绉诲姩</span><kbd>M</kbd><span>娴嬮噺锛圫hift 姘村钩/鍨傜洿锛?</span>
-    <kbd>X</kbd><span>鎷嗘敼闈炴壙閲嶅锛堥粦鑹蹭负鎵块噸澧欙級</span><kbd>R</kbd><span>鏃嬭浆 90掳锛圫hift 鍙嶅悜锛?</span><kbd>鏂瑰悜閿?</kbd><span>寰皟 10mm锛圫hift 100mm锛?</span>
-    <kbd>鈱?/Ctrl D</kbd><span>澶嶅埗</span><kbd>Delete</kbd><span>鍒犻櫎</span><kbd>鈱?/Ctrl Z</kbd><span>鎾ら攢</span><kbd>T</kbd><span>鍒囨崲 2D / 3D</span><kbd>F</kbd><span>閫傚簲绐楀彛</span><kbd>Esc</kbd><span>鍙栨秷閫夋嫨</span>
+  ${tr(`<section><h3>键盘快捷键</h3><div class="kbd">
+    <kbd>拖拽</kbd><span>左侧家具拖入平面图</span><kbd>V</kbd><span>选择 / 移动</span><kbd>M</kbd><span>测量（Shift 水平/垂直）</span>
+    <kbd>X</kbd><span>拆改非承重墙（黑色为承重墙）</span><kbd>R</kbd><span>旋转 90°（Shift 反向）</span><kbd>方向键</kbd><span>微调 10mm（Shift 100mm）</span>
+    <kbd>⌘/Ctrl D</kbd><span>复制</span><kbd>Delete</kbd><span>删除</span><kbd>⌘/Ctrl Z</kbd><span>撤销</span><kbd>T</kbd><span>切换 2D / 3D</span><kbd>F</kbd><span>适应窗口</span><kbd>Esc</kbd><span>取消选择</span>
   </div></section>`, `<section><h3>Keyboard Shortcuts</h3><div class="kbd">
     <kbd>Drag</kbd><span>Drag furniture onto the plan</span><kbd>V</kbd><span>Select / move</span><kbd>M</kbd><span>Measure (Shift: horizontal/vertical)</span>
-    <kbd>X</kbd><span>Demolish non-bearing walls (black = bearing)</span><kbd>R</kbd><span>Rotate 90掳 (Shift reverses)</span><kbd>Arrows</kbd><span>Nudge 10mm (Shift 100mm)</span>
-    <kbd>鈱?/Ctrl D</kbd><span>Duplicate</span><kbd>Delete</kbd><span>Delete</span><kbd>鈱?/Ctrl Z</kbd><span>Undo</span><kbd>T</kbd><span>Toggle 2D / 3D</span><kbd>F</kbd><span>Fit to window</span><kbd>Esc</kbd><span>Deselect</span>
+    <kbd>X</kbd><span>Demolish non-bearing walls (black = bearing)</span><kbd>R</kbd><span>Rotate 90° (Shift reverses)</span><kbd>Arrows</kbd><span>Nudge 10mm (Shift 100mm)</span>
+    <kbd>⌘/Ctrl D</kbd><span>Duplicate</span><kbd>Delete</kbd><span>Delete</span><kbd>⌘/Ctrl Z</kbd><span>Undo</span><kbd>T</kbd><span>Toggle 2D / 3D</span><kbd>F</kbd><span>Fit to window</span><kbd>Esc</kbd><span>Deselect</span>
   </div></section>`)}`;
 }
 function bindOverview(){
@@ -912,15 +912,15 @@ function bindOverview(){
   $('#clearFurn').onclick = clearLayout;
 }
 
-// 搴曢儴娴姩宸ュ叿鏉★細瑙﹀睆娌℃湁閿洏锛屾棆杞? / 澶嶅埗 / 鍒犻櫎閮芥斁鍦ㄨ繖閲?
+// 底部浮动工具条：触屏没有键盘，旋转 / 复制 / 删除都放在这里
 function renderFab(){
   const fab = $('#fab'), f = ui.sel?.kind === 'furn' && getF(ui.sel.id), r = ui.sel?.kind === 'room' && ROOMS.find(r => r.id === ui.sel.id);
   if (!f && !r){ fab.classList.remove('show'); return; }
   fab.innerHTML = f
-    ? `<span class="name">${esc(nm(f.name))}</span><button class="btn" data-a="rotL">鈫?</button><button class="btn" data-a="rotR">鈫? ${tr('鏃嬭浆','Rotate')}</button>
-       <button class="btn" data-a="dup">${tr('澶嶅埗','Duplicate')}</button><button class="btn danger" data-a="del">${tr('鍒犻櫎','Delete')}</button><span class="sep"></span>
-       <button class="btn narrow-only" data-a="prop">${tr('灞炴??','Properties')}</button><button class="btn" data-a="done">${tr('瀹屾垚','Done')}</button>`
-    : `<span class="name">${esc(nm(state.rooms[r.id].name))}</span><button class="btn narrow-only" data-a="prop">${tr('鍦伴潰 / 灞炴??','Floor / Properties')}</button><button class="btn" data-a="done">${tr('瀹屾垚','Done')}</button>`;
+    ? `<span class="name">${esc(nm(f.name))}</span><button class="btn" data-a="rotL">↺</button><button class="btn" data-a="rotR">↻ ${tr('旋转','Rotate')}</button>
+       <button class="btn" data-a="dup">${tr('复制','Duplicate')}</button><button class="btn danger" data-a="del">${tr('删除','Delete')}</button><span class="sep"></span>
+       <button class="btn narrow-only" data-a="prop">${tr('属性','Properties')}</button><button class="btn" data-a="done">${tr('完成','Done')}</button>`
+    : `<span class="name">${esc(nm(state.rooms[r.id].name))}</span><button class="btn narrow-only" data-a="prop">${tr('地面 / 属性','Floor / Properties')}</button><button class="btn" data-a="done">${tr('完成','Done')}</button>`;
   fab.classList.add('show');
   fab.querySelectorAll('[data-a]').forEach(b => b.onclick = () => ({
     rotL:() => rotateSel(-90), rotR:() => rotateSel(90), dup:duplicateSel, del:deleteSel,
@@ -930,14 +930,14 @@ function renderFab(){
 
 function clearLayout(){
   const n = state.furniture.length;
-  if (!n) return toast(tr('褰撳墠娌℃湁甯冪疆浠讳綍瀹跺叿', 'There is no furniture to clear'));
-  if (!confirm(tr(`纭畾娓呯┖鍏ㄩ儴 ${n} 浠跺鍏? / 瀹剁數鍚楋紵\n澧欎綋銆佸湴闈㈡潗鏂欏拰娴嬮噺绾夸細淇濈暀锛屽彲鐐广?屾挙閿?銆嶆仮澶嶃?俙, `Remove all ${n} furniture / appliance items?\nWalls, flooring and measurements are kept. You can Undo this.`))) return;
+  if (!n) return toast(tr('当前没有布置任何家具', 'There is no furniture to clear'));
+  if (!confirm(tr(`确定清空全部 ${n} 件家具 / 家电吗？\n墙体、地面材料和测量线会保留，可点「撤销」恢复。`, `Remove all ${n} furniture / appliance items?\nWalls, flooring and measurements are kept. You can Undo this.`))) return;
   ui.sel = null; mutate(() => state.furniture = []);
-  toast(tr('宸叉竻绌哄竷缃紝鍙偣銆屾挙閿?銆嶆仮澶?', 'Layout cleared 鈥? Undo to restore'));
+  toast(tr('已清空布置，可点「撤销」恢复', 'Layout cleared — Undo to restore'));
 }
 
-/* 渚ф爮寮?鍚堬細which = 'lib' | 'panel' | null锛宱pen 涓嶄紶鍒欏垏鎹€??
- * 瀹藉睆锛氫晶鏍忓湪甯冨眬涓敹璧? / 灞曞紑锛堣浣忛?夋嫨锛夛紱绐勫睆锛氫晶鏍忔槸娴眰鎶藉眽锛屼竴娆″彧寮?涓?涓紝which = null 琛ㄧず鍏ㄩ儴鍏抽棴 */
+/* 侧栏开合：which = 'lib' | 'panel' | null，open 不传则切换。
+ * 宽屏：侧栏在布局中收起 / 展开（记住选择）；窄屏：侧栏是浮层抽屉，一次只开一个，which = null 表示全部关闭 */
 const PANES = 'huxing-panes';
 const panes = (() => { try { return JSON.parse(localStorage.getItem(PANES)) || {}; } catch(e) { return {}; } })();
 function drawer(which, open){
@@ -959,28 +959,28 @@ function syncPaneBtns(){
   const els = {lib:$('aside.lib'), panel:$('aside.right')}, n = narrow();
   const vis = k => n ? els[k].classList.contains('open') : !panes[k === 'lib' ? 'hideLib' : 'hidePanel'];
   $('#tgLib').classList.toggle('on', vis('lib')); $('#tgPanel').classList.toggle('on', vis('panel'));
-  $('#tgLib').title = vis('lib') ? tr('鏀惰捣瀹跺叿搴? ( [ )', 'Hide library ( [ )') : tr('灞曞紑瀹跺叿搴? ( [ )', 'Show library ( [ )');
-  $('#tgPanel').title = vis('panel') ? tr('鏀惰捣灞炴?ч潰鏉? ( ] )', 'Hide properties ( ] )') : tr('灞曞紑灞炴?ч潰鏉? ( ] )', 'Show properties ( ] )');
-  $('#stage').classList.toggle('drawer-panel', n && vis('panel'));   // 灞炴?ф娊灞夌洊浣忕敾闈㈡椂璁╁嚭搴曢儴宸ュ叿鏉?
+  $('#tgLib').title = vis('lib') ? tr('收起家具库 ( [ )', 'Hide library ( [ )') : tr('展开家具库 ( [ )', 'Show library ( [ )');
+  $('#tgPanel').title = vis('panel') ? tr('收起属性面板 ( ] )', 'Hide properties ( ] )') : tr('展开属性面板 ( ] )', 'Show properties ( ] )');
+  $('#stage').classList.toggle('drawer-panel', n && vis('panel'));   // 属性抽屉盖住画面时让出底部工具条
 }
 function closeDrawers(){ if (narrow()) drawer(null); }
 
 function roomPanel(r){
   const st = state.rooms[r.id], a = area(r.poly), [x0,y0,x1,y1] = bbox(r.poly), inside = state.furniture.filter(f => f.cx>x0&&f.cx<x1&&f.cy>y0&&f.cy<y1);
-  const mats = Object.entries(MATS).map(([k,m]) => `<button class="mat ${k===st.mat?'on':''}" data-mat="${k}"><i style="background:${m.sw}"></i><span>${nm(m.name)}<small>楼${m.price}/m虏</small></span></button>`).join('');
-  return `<section><h3>${tr('鎴块棿','Room')}</h3>
-    <div class="form"><label class="full">${tr('鍚嶇О','Name')}<input id="rName" value="${esc(nm(st.name))}"></label></div>
+  const mats = Object.entries(MATS).map(([k,m]) => `<button class="mat ${k===st.mat?'on':''}" data-mat="${k}"><i style="background:${m.sw}"></i><span>${nm(m.name)}<small>¥${m.price}/m²</small></span></button>`).join('');
+  return `<section><h3>${tr('房间','Room')}</h3>
+    <div class="form"><label class="full">${tr('名称','Name')}<input id="rName" value="${esc(nm(st.name))}"></label></div>
     <div class="stats" style="margin-top:10px">
-      <div><small>${tr('浣跨敤闈㈢Н','Floor area')}</small><span class="big">${fmt(a)}</span> m虏</div>
-      <div><small>${tr('鍛ㄩ暱','Perimeter')}</small><span class="big">${fmt(perim(r.poly),1)}</span> m</div>
-      <div><small>${tr('寮?闂?','Width')}</small><span class="big">${x1-x0}</span> mm</div>
-      <div><small>${tr('杩涙繁','Depth')}</small><span class="big">${y1-y0}</span> mm</div></div>
-    <div class="muted">${tr(`澧欓潰闈㈢Н锛堝眰楂? 2.8m锛屾湭鎵ｉ棬绐楋級绾? ${fmt(perim(r.poly)*2.8,1)} m虏`, `Wall area (2.8m ceiling, openings not deducted) 鈮? ${fmt(perim(r.poly)*2.8,1)} m虏`)}</div></section>
-  <section><h3>${tr('鍦伴潰鏉愭枡','Flooring')}</h3><div class="mats">${mats}</div>
-    <div class="total"><span>${tr('鏉愭枡浼颁环','Estimated cost')}</span><b>楼${Math.round(a*MATS[st.mat].price*1.05).toLocaleString()}</b></div></section>
-  <section><h3>${tr('鎴块棿鍐呭鍏?','Furniture in room')} <small>${tr(`${inside.length} 浠禶, `${inside.length} items`)}</small></h3>
-    <table>${inside.map(f => `<tr class="click" data-fid="${f.id}"><td>${esc(nm(f.name))}</td><td class="r muted">${f.w}脳${f.d}</td></tr>`).join('') || `<tr><td class="muted">${tr('鏆傛棤','None')}</td></tr>`}</table>
-    <div class="actions"><button class="btn" id="back">${tr('鈫? 杩斿洖鎬昏','鈫? Back to overview')}</button></div></section>`;
+      <div><small>${tr('使用面积','Floor area')}</small><span class="big">${fmt(a)}</span> m²</div>
+      <div><small>${tr('周长','Perimeter')}</small><span class="big">${fmt(perim(r.poly),1)}</span> m</div>
+      <div><small>${tr('开间','Width')}</small><span class="big">${x1-x0}</span> mm</div>
+      <div><small>${tr('进深','Depth')}</small><span class="big">${y1-y0}</span> mm</div></div>
+    <div class="muted">${tr(`墙面面积（层高 2.8m，未扣门窗）约 ${fmt(perim(r.poly)*2.8,1)} m²`, `Wall area (2.8m ceiling, openings not deducted) ≈ ${fmt(perim(r.poly)*2.8,1)} m²`)}</div></section>
+  <section><h3>${tr('地面材料','Flooring')}</h3><div class="mats">${mats}</div>
+    <div class="total"><span>${tr('材料估价','Estimated cost')}</span><b>¥${Math.round(a*MATS[st.mat].price*1.05).toLocaleString()}</b></div></section>
+  <section><h3>${tr('房间内家具','Furniture in room')} <small>${tr(`${inside.length} 件`, `${inside.length} items`)}</small></h3>
+    <table>${inside.map(f => `<tr class="click" data-fid="${f.id}"><td>${esc(nm(f.name))}</td><td class="r muted">${f.w}×${f.d}</td></tr>`).join('') || `<tr><td class="muted">${tr('暂无','None')}</td></tr>`}</table>
+    <div class="actions"><button class="btn" id="back">${tr('← 返回总览','← Back to overview')}</button></div></section>`;
 }
 function bindRoomPanel(){
   const id = ui.sel.id;
@@ -991,23 +991,23 @@ function bindRoomPanel(){
 }
 
 function furnPanel(f){
-  return `<section><h3>${tr('瀹跺叿灞炴??','Furniture')}</h3>
+  return `<section><h3>${tr('家具属性','Furniture')}</h3>
     <div class="form">
-      <label class="full">${tr('鍚嶇О','Name')}<input id="fName" value="${esc(nm(f.name))}"></label>
-      <label>${tr('瀹?','Width')} (mm)<input type="number" id="fW" value="${f.w}" min="50" step="10"></label>
-      <label>${tr('娣?','Depth')} (mm)<input type="number" id="fD" value="${f.d}" min="50" step="10"></label>
-      <label>${tr('涓績','Center')} X (mm)<input type="number" id="fX" value="${Math.round(f.cx)}" step="10"></label>
-      <label>${tr('涓績','Center')} Y (mm)<input type="number" id="fY" value="${Math.round(f.cy)}" step="10"></label>
-      <label>${tr('鏃嬭浆','Rotation')} (掳)<input type="number" id="fR" value="${f.rot}" step="15"></label>
-      <label>${tr('棰滆壊','Color')}<input type="color" id="fC" value="${f.color}"></label>
+      <label class="full">${tr('名称','Name')}<input id="fName" value="${esc(nm(f.name))}"></label>
+      <label>${tr('宽','Width')} (mm)<input type="number" id="fW" value="${f.w}" min="50" step="10"></label>
+      <label>${tr('深','Depth')} (mm)<input type="number" id="fD" value="${f.d}" min="50" step="10"></label>
+      <label>${tr('中心','Center')} X (mm)<input type="number" id="fX" value="${Math.round(f.cx)}" step="10"></label>
+      <label>${tr('中心','Center')} Y (mm)<input type="number" id="fY" value="${Math.round(f.cy)}" step="10"></label>
+      <label>${tr('旋转','Rotation')} (°)<input type="number" id="fR" value="${f.rot}" step="15"></label>
+      <label>${tr('颜色','Color')}<input type="color" id="fC" value="${f.color}"></label>
     </div>
-    <div class="muted" style="margin-top:8px">${tr('鍗犲湴闈㈢Н','Footprint')} ${fmt(f.w*f.d/1e6)} m虏</div>
+    <div class="muted" style="margin-top:8px">${tr('占地面积','Footprint')} ${fmt(f.w*f.d/1e6)} m²</div>
     <div class="actions">
-      <button class="btn" id="aRot">${tr('鏃嬭浆 90掳','Rotate 90掳')}</button><button class="btn" id="aDup">${tr('澶嶅埗','Duplicate')}</button>
-      <button class="btn" id="aTop">${tr('缃簬椤跺眰','Bring to front')}</button><button class="btn" id="aBot">${tr('缃簬搴曞眰','Send to back')}</button>
-      <button class="btn danger" id="aDel">${tr('鍒犻櫎','Delete')}</button><button class="btn" id="back">${tr('鈫? 杩斿洖','鈫? Back')}</button>
+      <button class="btn" id="aRot">${tr('旋转 90°','Rotate 90°')}</button><button class="btn" id="aDup">${tr('复制','Duplicate')}</button>
+      <button class="btn" id="aTop">${tr('置于顶层','Bring to front')}</button><button class="btn" id="aBot">${tr('置于底层','Send to back')}</button>
+      <button class="btn danger" id="aDel">${tr('删除','Delete')}</button><button class="btn" id="back">${tr('← 返回','← Back')}</button>
     </div></section>
-  <section class="muted" style="font-size:12px">${tr('鎷栧姩瀹跺叿绉诲姩锛涙嫋鍔ㄤ笂鏂瑰渾鐐规棆杞紱鎷栧姩鍙充笅瑙掓柟鍧楄皟鏁村昂瀵搞?傚紑鍚?岃创澧欏惛闄勩?嶅悗闈犺繎澧欓潰浼氳嚜鍔ㄨ创榻愩??', 'Drag to move; drag the top dot to rotate; drag the bottom-right square to resize. With "Wall snap" on, items snap flush to nearby walls.')}</section>`;
+  <section class="muted" style="font-size:12px">${tr('拖动家具移动；拖动上方圆点旋转；拖动右下角方块调整尺寸。开启「贴墙吸附」后靠近墙面会自动贴齐。', 'Drag to move; drag the top dot to rotate; drag the bottom-right square to resize. With "Wall snap" on, items snap flush to nearby walls.')}</section>`;
 }
 function bindFurnPanel(f){
   const upd = (fn) => mutate(() => { const g = getF(f.id); if (g) fn(g); });
@@ -1025,7 +1025,7 @@ function bindFurnPanel(f){
   $('#back').onclick = () => select(null);
 }
 
-/* ======================= 鎿嶄綔 ======================= */
+/* ======================= 操作 ======================= */
 function select(sel){ ui.sel = sel; renderSel(); renderPanel(); }
 function rotateSel(d){ if (ui.sel?.kind==='furn') mutate(() => { const f = getF(ui.sel.id); f.rot = norm(f.rot + d); }); }
 function deleteSel(){ if (ui.sel?.kind==='furn'){ const id = ui.sel.id; ui.sel = null; mutate(() => state.furniture = state.furniture.filter(f => f.id !== id)); } }
@@ -1034,7 +1034,7 @@ function duplicateSel(){
   const f = getF(ui.sel.id), n = {...f, id:uid(), cx:f.cx+200, cy:f.cy+200};
   ui.sel = {kind:'furn', id:n.id}; mutate(() => state.furniture.push(n));
 }
-// 鏂版斁涓嬬殑瀹跺叿鑻ュ帇鍦ㄥ / 绐椾笂锛屾部绌块?忚緝娴呯殑鏂瑰悜鎺ㄥ嚭鏉ワ紝鍒氬ソ璐村
+// 新放下的家具若压在墙 / 窗上，沿穿透较浅的方向推出来，刚好贴墙
 function pushOut(f){
   for (let n = 0; n < 4; n++){
     let moved = false;
@@ -1053,17 +1053,17 @@ function addItem(it, x, y){
   pushOut(f);
   ui.sel = {kind:'furn', id:f.id};
   mutate(() => type==='rug' ? state.furniture.unshift(f) : state.furniture.push(f));
-  toast(tr(`宸叉坊鍔犮??${name}銆?${w}脳${d}`, `Added "${nm(name)}" ${w}脳${d}`));
+  toast(tr(`已添加「${name}」${w}×${d}`, `Added "${nm(name)}" ${w}×${d}`));
 }
 function toggleWall(id){
-  // 鏈埛鍨嬪師濮嬪浘鐗囨棤娉曞彲闈犲垽瀹氬悇闅斿鐨勭粨鏋勫睘鎬э紱瑁呬慨甯冨眬闃舵绂佺敤瀹為檯鎷嗘敼鏍囪銆?
-  return toast(tr('鏂版埛鍨嬪浣撴?ц川鏈牳瀹烇紝鎷嗘敼鍔熻兘鏆傛椂绂佺敤锛涜渚濇嵁姝ｅ紡缁撴瀯鍥炬牳楠屻??', 'Wall types have not been verified; demolition is disabled pending structural review.'));
+  // 本户型原始图片无法可靠判定各隔墙的结构属性；装修布局阶段禁用实际拆改标记。
+  return toast(tr('新户型墙体性质未核实，拆改功能暂时禁用；请依据正式结构图核验。', 'Wall types have not been verified; demolition is disabled pending structural review.'));
   const w = WALLS[+id.slice(1)];
-  if (w[4]==='b') return toast(tr('鎵块噸澧欙紙榛戣壊锛変笉鍙媶闄?', 'Load-bearing walls (black) cannot be removed'));
-  if (w[4]==='e') return toast(tr('澶栧灞炰簬寤虹瓚澶栧洿鎶ょ粨鏋勶紝涓嶅缓璁媶闄?', 'Exterior walls are part of the building envelope and should not be removed'));
+  if (w[4]==='b') return toast(tr('承重墙（黑色）不可拆除', 'Load-bearing walls (black) cannot be removed'));
+  if (w[4]==='e') return toast(tr('外墙属于建筑外围护结构，不建议拆除', 'Exterior walls are part of the building envelope and should not be removed'));
   const on = state.demolished.includes(id);
   mutate(() => state.demolished = on ? state.demolished.filter(x => x!==id) : [...state.demolished, id]);
-  toast(on ? tr('宸叉仮澶嶅浣?', 'Wall restored') : tr(`宸叉爣璁版媶闄? ${Math.max(w[2]-w[0], w[3]-w[1])} mm 澧欎綋`, `Marked ${Math.max(w[2]-w[0], w[3]-w[1])} mm of wall for removal`));
+  toast(on ? tr('已恢复墙体', 'Wall restored') : tr(`已标记拆除 ${Math.max(w[2]-w[0], w[3]-w[1])} mm 墙体`, `Marked ${Math.max(w[2]-w[0], w[3]-w[1])} mm of wall for removal`));
 }
 
 function setTool(t){
@@ -1075,13 +1075,13 @@ function setTool(t){
 }
 function syncModeHint(){
   const hints = {select:'',
-    measure:COARSE ? tr('鎸変綇鎷栧嚭娴嬮噺绾匡紝鎴栦緷娆＄偣涓ょ偣 路 闈犺繎澧欓潰鑷姩鍚搁檮 路 鐐广?岄?夋嫨銆嶉??鍑?', 'Hold and drag a line, or tap two points 路 snaps to walls 路 tap "Select" to exit')
-      : tr('鐐瑰嚮涓ょ偣锛堟垨鎸変綇鎷栧姩锛夋祴閲忚窛绂? 路 闈犺繎澧欓潰鑷姩鍚搁檮 路 Shift 閿佸畾姘村钩/鍨傜洿 路 Esc 鍙栨秷', 'Click two points (or drag) to measure 路 snaps to walls 路 Shift locks horizontal/vertical 路 Esc cancels'),
-    demolish:tr('鐐瑰嚮鐏拌壊闈炴壙閲嶅鏍囪鎷嗛櫎锛屽啀娆＄偣鍑绘仮澶? 路 榛戣壊鎵块噸澧欎笉鍙媶', 'Click a grey non-bearing wall to remove it, click again to restore 路 black bearing walls cannot be removed')};
+    measure:COARSE ? tr('按住拖出测量线，或依次点两点 · 靠近墙面自动吸附 · 点「选择」退出', 'Hold and drag a line, or tap two points · snaps to walls · tap "Select" to exit')
+      : tr('点击两点（或按住拖动）测量距离 · 靠近墙面自动吸附 · Shift 锁定水平/垂直 · Esc 取消', 'Click two points (or drag) to measure · snaps to walls · Shift locks horizontal/vertical · Esc cancels'),
+    demolish:tr('点击灰色非承重墙标记拆除，再次点击恢复 · 黑色承重墙不可拆', 'Click a grey non-bearing wall to remove it, click again to restore · black bearing walls cannot be removed')};
   const h = $('#modehint'); h.textContent = hints[ui.tool]; h.classList.toggle('show', !!hints[ui.tool]);
 }
 
-/* ======================= 瑙嗗浘 ======================= */
+/* ======================= 视图 ======================= */
 function applyView(){
   const W = svg.clientWidth, H = svg.clientHeight;
   svg.setAttribute('viewBox', `${view.x0} ${view.y0} ${W/view.s} ${H/view.s}`);
@@ -1111,7 +1111,7 @@ function toMM(e){
   return pt.matrixTransform(svg.getScreenCTM().inverse());
 }
 
-/* ======================= 鍚搁檮 ======================= */
+/* ======================= 吸附 ======================= */
 const grid = () => 10;
 function snapMove(f, cx, cy){
   let nx = Math.round(cx/grid())*grid(), ny = Math.round(cy/grid())*grid();
@@ -1135,15 +1135,15 @@ function snapPoint(p, shift){
   return {x, y};
 }
 
-/* ======================= 鎸囬拡浜や簰 ======================= */
+/* ======================= 指针交互 ======================= */
 let drag = null, pinch = null;
-const touches = new Map();                     // 褰撳墠鎸夊湪骞抽潰鍥句笂鐨勬墜鎸?
+const touches = new Map();                     // 当前按在平面图上的手指
 const svgXY = (x, y) => { const r = svg.getBoundingClientRect(); return [x - r.left, y - r.top]; };
 function pinchInfo(){
   const [a, b] = [...touches.values()];
   return {d:Math.max(1, Math.hypot(b.x-a.x, b.y-a.y)), c:svgXY((a.x+b.x)/2, (a.y+b.y)/2)};
 }
-// 缁撴潫褰撳墠鎷栧姩锛氱Щ鍔ㄨ繃鐨勫鍏疯鍏ユ挙閿?鏍?
+// 结束当前拖动：移动过的家具记入撤销栈
 function endDrag(cancel){
   const d = drag; drag = null; svg.classList.remove('panning');
   if (!d) return;
@@ -1152,7 +1152,7 @@ function endDrag(cancel){
     if (d.moved && ui.mA && ui.mCur && Math.hypot(ui.mCur.x-ui.mA.x, ui.mCur.y-ui.mA.y) > 20){
       const a = ui.mA, b = ui.mCur; ui.mA = ui.mCur = null; mutate(() => state.measures.push({a, b}));
     }
-    renderMeasure(); return;                   // 娌℃嫋鍔細淇濈暀璧风偣锛岀瓑绗簩娆＄偣鍑?
+    renderMeasure(); return;                   // 没拖动：保留起点，等第二次点击
   }
   if (d.kind === 'pan'){
     if (!cancel && !d.moved && ui.tool === 'select') select(d.room ? {kind:'room', id:d.room} : null);
@@ -1167,7 +1167,7 @@ svg.addEventListener('pointerdown', e => {
   if (e.pointerType !== 'mouse'){
     touches.set(e.pointerId, {x:e.clientX, y:e.clientY});
     svg.setPointerCapture(e.pointerId);
-    if (touches.size >= 2){                    // 绗簩鏍规墜鎸囪惤涓嬶細鍙栨秷鍗曟寚鎿嶄綔锛岃繘鍏ュ弻鎸囩缉鏀? / 骞崇Щ
+    if (touches.size >= 2){                    // 第二根手指落下：取消单指操作，进入双指缩放 / 平移
       endDrag(drag?.kind === 'measure' || drag?.kind === 'pan');
       const {d, c} = pinchInfo();
       pinch = {d, c, s:view.s, px:view.x0 + c[0]/view.s, py:view.y0 + c[1]/view.s};
@@ -1210,7 +1210,7 @@ svg.addEventListener('pointermove', e => {
   $('#cx').textContent = Math.round(p.x) + ' mm'; $('#cy').textContent = Math.round(p.y) + ' mm';
   if (!drag){
     const room = e.target.closest && e.target.closest('[data-room]');
-    $('#hover').innerHTML = room ? `<b>${esc(state.rooms[room.dataset.room].name)}</b> ${fmt(area(ROOMS.find(r=>r.id===room.dataset.room).poly))} m虏` : '';
+    $('#hover').innerHTML = room ? `<b>${esc(state.rooms[room.dataset.room].name)}</b> ${fmt(area(ROOMS.find(r=>r.id===room.dataset.room).poly))} m²` : '';
     if (ui.tool === 'measure' && ui.mA){ ui.mCur = snapPoint(p, e.shiftKey); renderMeasure(); }
     return;
   }
@@ -1225,7 +1225,7 @@ svg.addEventListener('pointermove', e => {
     view.x0 = drag.x0 - (e.clientX-drag.sx)/view.s; view.y0 = drag.y0 - (e.clientY-drag.sy)/view.s; applyView(); return;
   }
   const f = getF(drag.id); if (!f) return;
-  if (!drag.moved && !far) return;             // 杞荤偣瀹跺叿涓嶅簲璁╁畠鎶栧姩涓?涓?
+  if (!drag.moved && !far) return;             // 轻点家具不应让它抖动一下
   drag.moved = true;
   if (drag.kind === 'move'){
     [f.cx, f.cy] = snapMove(f, p.x-drag.ox, p.y-drag.oy);
@@ -1245,12 +1245,12 @@ svg.addEventListener('pointermove', e => {
 
 function onPointerEnd(e){
   touches.delete(e.pointerId);
-  if (pinch){ if (touches.size < 2) pinch = null; return; }   // 鍙屾寚缁撴潫鍚庯紝鍓╀笅鐨勬墜鎸囦笉鍐嶈Е鍙戞搷浣?
+  if (pinch){ if (touches.size < 2) pinch = null; return; }   // 双指结束后，剩下的手指不再触发操作
   endDrag(e.type === 'pointercancel');
 }
 svg.addEventListener('pointerup', onPointerEnd);
 svg.addEventListener('pointercancel', onPointerEnd);
-// 闃绘 iPad Safari 鎶婂弻鎸囨墜鍔垮綋鎴愭暣椤电缉鏀?
+// 阻止 iPad Safari 把双指手势当成整页缩放
 ['gesturestart','gesturechange','gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault()));
 
 svg.addEventListener('wheel', e => {
@@ -1262,7 +1262,7 @@ svg.addEventListener('dblclick', e => { if (ui.tool==='select' && e.target.close
 svg.addEventListener('contextmenu', e => { if (ui.tool==='measure'){ e.preventDefault(); ui.mA = null; renderMeasure(); } });
 
 
-/* ======================= 閿洏 ======================= */
+/* ======================= 键盘 ======================= */
 document.addEventListener('keydown', e => {
   if (e.target.matches('input,select,textarea')) return;
   if (window.View3D?.walking()) return;
@@ -1290,14 +1290,14 @@ document.addEventListener('keydown', e => {
   else if (k === '-') zoomCenter(.8);
 });
 
-/* ======================= 瀹跺叿搴? ======================= */
+/* ======================= 家具库 ======================= */
 function buildLib(){
   $('#lib').innerHTML = LIB.map((c,ci) => `<h4>${nm(c.cat)}</h4><div class="lib-grid">${c.items.map((it,ii) => {
     const [t,n,w,d,col] = it, pad = Math.max(w,d)*.08;
-    return `<div class="item" data-key="${ci}:${ii}" title="${tr('鐐瑰嚮娣诲姞锛屾垨鎷栧埌骞抽潰鍥句腑鐨勬寚瀹氫綅缃?', 'Click to add, or drag onto the plan')}">
-      <svg viewBox="${-w/2-pad} ${-d/2-pad} ${w+2*pad} ${d+2*pad}">${furnSVG(t,w,d,col)}</svg><b>${esc(nm(n))}</b><small>${w}脳${d}</small></div>`;
+    return `<div class="item" data-key="${ci}:${ii}" title="${tr('点击添加，或拖到平面图中的指定位置', 'Click to add, or drag onto the plan')}">
+      <svg viewBox="${-w/2-pad} ${-d/2-pad} ${w+2*pad} ${d+2*pad}">${furnSVG(t,w,d,col)}</svg><b>${esc(nm(n))}</b><small>${w}×${d}</small></div>`;
   }).join('')}</div>`).join('') + `<div class="hint">${tr(
-    `瀹跺叿鎸夌湡瀹炲昂瀵革紙mm锛夌粯鍒躲??${COARSE ? '鐐逛竴涓嬫斁鍒扮敾闈腑澶紝鎴栨寜浣忓悜鍙虫嫋鍒板钩闈㈠浘 / 3D 鍦伴潰涓婄殑鎸囧畾浣嶇疆锛堜笂涓嬫粦鍔ㄤ负婊氬姩鍒楄〃锛夈??' : '鐐瑰嚮娣诲姞鍒扮敾闈腑澶紝鎴栫洿鎺ユ嫋鍒板钩闈㈠浘 / 3D 鍦伴潰涓娿??'}娣诲姞鍚庡彲鍦ㄥ彸渚т慨鏀瑰娣变笌棰滆壊銆俙,
+    `家具按真实尺寸（mm）绘制。${COARSE ? '点一下放到画面中央，或按住向右拖到平面图 / 3D 地面上的指定位置（上下滑动为滚动列表）。' : '点击添加到画面中央，或直接拖到平面图 / 3D 地面上。'}添加后可在右侧修改宽深与颜色。`,
     `Furniture is drawn at real size (mm). ${COARSE ? 'Tap to place at the center, or hold and drag right onto the plan / 3D floor (swipe up/down to scroll).' : 'Click to add at the center, or drag onto the plan / 3D floor.'} Edit size and color in the right panel afterwards.`)}</div>`;
   document.querySelectorAll('.item').forEach(el => el.addEventListener('pointerdown', e => {
     if (e.button) return;
@@ -1306,10 +1306,10 @@ function buildLib(){
 }
 const itemOf = el => { const [ci, ii] = el.dataset.key.split(':').map(Number); return LIB[ci].items[ii]; };
 
-// 瀹跺叿搴撴嫋鏀撅細鐢? pointer 浜嬩欢瀹炵幇锛坕Pad 涓? HTML5 鎷栨斁涓嶅彲闈狅級銆?
-// 鍒楄〃璁剧疆浜? touch-action:pan-y锛岀珫鍚戞粦鍔ㄤ氦缁欐祻瑙堝櫒婊氬姩锛堜細瑙﹀彂 pointercancel锛夛紝妯悜鎷栧姩鎵嶅紑濮嬫嫋鏀俱??
+// 家具库拖放：用 pointer 事件实现（iPad 上 HTML5 拖放不可靠）。
+// 列表设置了 touch-action:pan-y，竖向滑动交给浏览器滚动（会触发 pointercancel），横向拖动才开始拖放。
 let libDrag = null;
-// 灞忓箷鍧愭爣 鈫? 鎴峰瀷鍧愭爣锛坢m锛夈??2D 鍙栧钩闈㈠浘鍧愭爣锛?3D 鍙栧皠绾夸笌鍦伴潰鐨勪氦鐐癸紱s = 璇ュ姣? mm 鐨勫睆骞曞儚绱犳暟
+// 屏幕坐标 → 户型坐标（mm）。2D 取平面图坐标，3D 取射线与地面的交点；s = 该处每 mm 的屏幕像素数
 function dropPoint(x, y){
   const r = $('#stage').getBoundingClientRect();
   if (x < r.left || x > r.right || y < r.top || y > r.bottom) return null;
@@ -1326,11 +1326,11 @@ addEventListener('pointermove', e => {
     g.innerHTML = `<svg viewBox="${-it[2]/2} ${-it[3]/2} ${it[2]} ${it[3]}">${furnSVG(it[0],it[2],it[3],it[4])}</svg>`;
     document.body.appendChild(g); libDrag.el.classList.add('dragging');
   }
-  // 骞界伒鍥炬寜钀界偣澶勭殑姣斾緥鏄剧ず鐪熷疄澶у皬锛?3D 涓繎澶ц繙灏忥級
+  // 幽灵图按落点处的比例显示真实大小（3D 中近大远小）
   const g = libDrag.ghost, s = Math.max(dropPoint(e.clientX, e.clientY)?.s || (is3D() ? .05 : view.s), .02);
   Object.assign(g.style, {width:Math.max(28, it[2]*s)+'px', height:Math.max(20, it[3]*s)+'px', left:e.clientX+'px', top:e.clientY+'px'});
   const lib = $('aside.lib');
-  if (narrow() && lib.classList.contains('open') && e.clientX > lib.getBoundingClientRect().right) drawer(null);   // 鎷栧嚭鎶藉眽鍚庤嚜鍔ㄦ敹璧?
+  if (narrow() && lib.classList.contains('open') && e.clientX > lib.getBoundingClientRect().right) drawer(null);   // 拖出抽屉后自动收起
 });
 function endLibDrag(e, ok){
   if (!libDrag || e.pointerId !== libDrag.id) return;
@@ -1341,11 +1341,11 @@ function endLibDrag(e, ok){
     if (!ok) return;
     const p = dropPoint(e.clientX, e.clientY);
     if (p) addItem(d.it, p.x, p.y);
-    else if (is3D() && e.clientX > $('#stage').getBoundingClientRect().left) toast(tr('璇锋嫋鍒板湴闈笂', 'Drop it on the floor'));
+    else if (is3D() && e.clientX > $('#stage').getBoundingClientRect().left) toast(tr('请拖到地面上', 'Drop it on the floor'));
     return;
   }
   if (!ok) return;
-  // 杞荤偣锛氭斁鍒伴?変腑鎴块棿涓績锛屽惁鍒欐斁鍒扮敾闈腑蹇冿紙3D 鍙栧睆骞曚腑蹇冨搴旂殑鍦伴潰浣嶇疆锛?
+  // 轻点：放到选中房间中心，否则放到画面中心（3D 取屏幕中心对应的地面位置）
   let p = null;
   if (ui.sel?.kind === 'room'){ const b = bbox(ROOMS.find(r => r.id===ui.sel.id).poly); p = {x:(b[0]+b[2])/2, y:(b[1]+b[3])/2}; }
   else if (is3D()){ const r = $('#stage').getBoundingClientRect(); p = window.View3D.groundAt(r.left + r.width/2, r.top + r.height/2); }
@@ -1356,7 +1356,7 @@ function endLibDrag(e, ok){
 addEventListener('pointerup', e => endLibDrag(e, true));
 addEventListener('pointercancel', e => endLibDrag(e, false));
 
-/* ======================= 瀵煎叆瀵煎嚭 ======================= */
+/* ======================= 导入导出 ======================= */
 function download(name, blob){ const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
 function exportPNG(){
   if (is3D()) return window.View3D.shot();
@@ -1372,26 +1372,26 @@ function exportPNG(){
   img.onload = () => {
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
     cv.getContext('2d').drawImage(img, 0, 0, W, H);
-    cv.toBlob(b => download(tr('鎴峰瀷瑁呬慨鏂规', 'floor-plan-design') + '.png', b));
+    cv.toBlob(b => download(tr('户型装修方案', 'floor-plan-design') + '.png', b));
   };
   img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));
 }
 
-/* ======================= 鏉傞」 ======================= */
+/* ======================= 杂项 ======================= */
 let toastT;
 function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
 
-/* ======================= 2D / 3D 鍒囨崲 ======================= */
+/* ======================= 2D / 3D 切换 ======================= */
 let viewMode = '2d', switching = false;
 const is3D = () => viewMode === '3d';
 const TIPS = () => COARSE
-  ? {'2d':tr('鐐规垨鎷栧姩瀹跺叿搴撴坊鍔? 路 鍗曟寚鎷栧姩骞崇Щ 路 鍙屾寚缂╂斁 路 閫変腑瀹跺叿鍚庡簳閮ㄥ伐鍏锋潯鍙棆杞? / 澶嶅埗 / 鍒犻櫎', 'Tap or drag from the library 路 1 finger pans 路 pinch zooms 路 bottom bar rotates / duplicates / deletes'),
-     '3d':tr('鍗曟寚鏃嬭浆 路 鍙屾寚缂╂斁 / 骞崇Щ 路 鐐瑰鍏锋垨鍦伴潰缂栬緫 路 鐐归棬寮?鍏?', '1 finger orbits 路 2 fingers zoom / pan 路 tap furniture or floor to edit 路 tap doors to open')}
-  : {'2d':tr('鎷栧姩宸︿晶瀹跺叿鍒板钩闈㈠浘 路 婊氳疆缂╂斁 路 鎷栧姩绌虹櫧澶勫钩绉? 路 T 鍒囨崲 3D', 'Drag furniture onto the plan 路 scroll to zoom 路 drag empty space to pan 路 T for 3D'),
-     '3d':tr('3D 鍦烘櫙涓庡钩闈㈡柟妗堝疄鏃跺悓姝? 路 鍙充晶闈㈡澘淇敼浼氱珛鍗崇敓鏁? 路 T 杩斿洖 2D', '3D stays in sync with the plan 路 panel edits apply instantly 路 T for 2D')};
+  ? {'2d':tr('点或拖动家具库添加 · 单指拖动平移 · 双指缩放 · 选中家具后底部工具条可旋转 / 复制 / 删除', 'Tap or drag from the library · 1 finger pans · pinch zooms · bottom bar rotates / duplicates / deletes'),
+     '3d':tr('单指旋转 · 双指缩放 / 平移 · 点家具或地面编辑 · 点门开关', '1 finger orbits · 2 fingers zoom / pan · tap furniture or floor to edit · tap doors to open')}
+  : {'2d':tr('拖动左侧家具到平面图 · 滚轮缩放 · 拖动空白处平移 · T 切换 3D', 'Drag furniture onto the plan · scroll to zoom · drag empty space to pan · T for 3D'),
+     '3d':tr('3D 场景与平面方案实时同步 · 右侧面板修改会立即生效 · T 返回 2D', '3D stays in sync with the plan · panel edits apply instantly · T for 2D')};
 async function setView(m){
   if (m === viewMode || switching) return;
-  if (!window.View3D) return toast(tr('3D 寮曟搸浠嶅湪鍔犺浇鎴栧姞杞藉け璐ワ紙闇?瑕佽仈缃戝姞杞? three.js锛?', '3D engine is still loading or failed to load (three.js needs a network connection)'));
+  if (!window.View3D) return toast(tr('3D 引擎仍在加载或加载失败（需要联网加载 three.js）', '3D engine is still loading or failed to load (three.js needs a network connection)'));
   switching = true; document.body.classList.add('busy');
   viewMode = m;
   if (m === '3d'){ if (ui.tool !== 'select') setTool('select'); ui.mA = null; document.body.classList.add('m3d'); await window.View3D.enter(); }
@@ -1411,51 +1411,51 @@ document.querySelectorAll('#layers .btn').forEach(b => b.onclick = () => {
 $('#zoomIn').onclick = () => zoomCenter(1.25);
 $('#zoomOut').onclick = () => zoomCenter(.8);
 $('#fit').onclick = fitView;
-$('#s60').onclick = () => { setRatio(60); toast(tr('宸叉寜 1:60 鏄剧ず锛堜笌鍘熷鎴峰瀷鍥惧悓姣斾緥锛?', 'Showing at 1:60 (same scale as the original plan)')); };
+$('#s60').onclick = () => { setRatio(60); toast(tr('已按 1:60 显示（与原始户型图同比例）', 'Showing at 1:60 (same scale as the original plan)')); };
 $('#s100').onclick = () => setRatio(100);
 $('#undo').onclick = undo; $('#redo').onclick = redo;
 $('#clearAll').onclick = clearLayout;
 
-/* 鍏ㄥ睆锛氭爣鍑? API + Safari锛坕Pad锛夌殑 webkit 鍓嶇紑鐗堟湰 */
+/* 全屏：标准 API + Safari（iPad）的 webkit 前缀版本 */
 const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
 function toggleFullscreen(){
   const de = document.documentElement;
   if (fsEl()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
   else {
     const req = de.requestFullscreen || de.webkitRequestFullscreen;
-    if (!req) return toast(tr('褰撳墠娴忚鍣ㄤ笉鏀寔缃戦〉鍏ㄥ睆锛屽彲鍦? Safari 涓?屾坊鍔犲埌涓诲睆骞曘?嶅悗浠ュ叏灞忔柟寮忔墦寮?', 'Fullscreen is not supported here 鈥? in Safari, use "Add to Home Screen" to open it fullscreen'));
-    Promise.resolve(req.call(de)).catch(() => toast(tr('鏃犳硶杩涘叆鍏ㄥ睆', 'Could not enter fullscreen')));
+    if (!req) return toast(tr('当前浏览器不支持网页全屏，可在 Safari 中「添加到主屏幕」后以全屏方式打开', 'Fullscreen is not supported here — in Safari, use "Add to Home Screen" to open it fullscreen'));
+    Promise.resolve(req.call(de)).catch(() => toast(tr('无法进入全屏', 'Could not enter fullscreen')));
   }
 }
 function syncFullscreen(){
   const on = !!fsEl(), b = $('#fullscreen');
-  b.textContent = '鉀? ' + (on ? tr('閫?鍑哄叏灞?', 'Exit fullscreen') : tr('鍏ㄥ睆', 'Fullscreen'));
-  b.title = (on ? tr('閫?鍑哄叏灞?', 'Exit fullscreen') : tr('鍏ㄥ睆', 'Fullscreen')) + ' (Shift+F)';
+  b.textContent = '⛶ ' + (on ? tr('退出全屏', 'Exit fullscreen') : tr('全屏', 'Fullscreen'));
+  b.title = (on ? tr('退出全屏', 'Exit fullscreen') : tr('全屏', 'Fullscreen')) + ' (Shift+F)';
 }
 $('#fullscreen').onclick = toggleFullscreen;
 ['fullscreenchange', 'webkitfullscreenchange'].forEach(t => document.addEventListener(t, syncFullscreen));
-// 宸蹭粠涓诲睆骞曚互鐙珛 App 鏂瑰紡鎵撳紑鏃舵湰灏辨槸鍏ㄥ睆锛岄殣钘忔寜閽?
+// 已从主屏幕以独立 App 方式打开时本就是全屏，隐藏按钮
 if (navigator.standalone || matchMedia('(display-mode: standalone)').matches) $('#fullscreen').hidden = true;
 $('#tgLib').onclick = () => drawer('lib');
 $('#tgPanel').onclick = () => drawer('panel');
-// 瑙﹀睆涓婄偣鑿滃崟浠ュ鐨勫湴鏂规敹璧枫?屾枃浠躲?嶈彍鍗?
+// 触屏上点菜单以外的地方收起「文件」菜单
 document.addEventListener('pointerdown', e => { const m = $('details.menu'); if (m.open && !m.contains(e.target)) m.open = false; });
 matchMedia('(max-width:1100px)').addEventListener('change', () => drawer(null));
-drawer(null);                                  // 鎭㈠涓婃鐨勯潰鏉挎敹璧风姸鎬?
+drawer(null);                                  // 恢复上次的面板收起状态
 $('#exportPng').onclick = exportPNG;
-$('#exportJson').onclick = () => download(tr('鎴峰瀷瑁呬慨鏂规', 'floor-plan-design') + '.json', new Blob([JSON.stringify(state, null, 2)], {type:'application/json'}));
+$('#exportJson').onclick = () => download(tr('户型装修方案', 'floor-plan-design') + '.json', new Blob([JSON.stringify(state, null, 2)], {type:'application/json'}));
 $('#importJson').onclick = () => $('#fileIn').click();
 $('#fileIn').onchange = e => {
   const file = e.target.files[0]; if (!file) return;
   file.text().then(txt => {
-    try { const s = JSON.parse(txt); if (!Array.isArray(s.furniture)) throw 0; const b = snap(); state = fixState(s); ui.sel = null; commit(b); renderAll(); toast(tr('鏂规宸插鍏?', 'Plan imported')); }
-    catch(err){ toast(tr('鏂囦欢鏍煎紡涓嶆纭?', 'Invalid file format')); }
+    try { const s = JSON.parse(txt); if (!Array.isArray(s.furniture)) throw 0; const b = snap(); state = fixState(s); ui.sel = null; commit(b); renderAll(); toast(tr('方案已导入', 'Plan imported')); }
+    catch(err){ toast(tr('文件格式不正确', 'Invalid file format')); }
   });
   e.target.value = '';
 };
-$('#reset').onclick = () => { if (confirm(tr('鎭㈠涓洪粯璁よ璁℃柟妗堬紵锛堝彲鎾ら攢锛?', 'Reset to the default design? (undoable)'))){ const b = snap(); state = defaultState(); ui.sel = null; commit(b); renderAll(); } };
-// 妯珫灞忓垏鎹€?佽〃澶存崲琛岀瓑閮戒細鏀瑰彉鐢诲竷灏哄锛涘昂瀵镐粠 0 鎭㈠锛堝棣栨甯冨眬锛夋椂閲嶆柊閫傚簲绐楀彛
-// 鍏朵綑灏哄鍙樺寲锛堟敹璧? / 灞曞紑闈㈡澘绛夛級淇濇寔鐢婚潰涓績涓嶅姩
+$('#reset').onclick = () => { if (confirm(tr('恢复为默认设计方案？（可撤销）', 'Reset to the default design? (undoable)'))){ const b = snap(); state = defaultState(); ui.sel = null; commit(b); renderAll(); } };
+// 横竖屏切换、表头换行等都会改变画布尺寸；尺寸从 0 恢复（如首次布局）时重新适应窗口
+// 其余尺寸变化（收起 / 展开面板等）保持画面中心不动
 let lastW = 0, lastH = 0;
 new ResizeObserver(() => {
   const w = svg.clientWidth, h = svg.clientHeight; if (!w) return;
@@ -1480,10 +1480,10 @@ fitView(); renderAll();
 </script>
 <script type="module">
 /* ============================================================
- *  3D 鍦烘櫙锛坱hree.js锛夆?斺?? 涓? 2D 鍏辩敤 state / ui锛屽垏鎹㈡椂甯﹁繃娓″姩鐢伙細
- *  2D 鈫? 3D锛?3D 鐩告満鍏堜互姝ｄ刊瑙嗗榻愬綋鍓? 2D 瑙嗗彛锛堟瘮渚嬨?佷綅缃竴鑷达級锛?
- *           浜ゅ弶娣″叆鍚庨暅澶村?炬枩鐜粫銆佸浣撲粠鍦伴潰鍗囪捣銆佸鍏烽殢鍚庣珛璧凤紱
- *  3D 鈫? 2D锛氬弽鍚戔?斺?斿鍏锋敹璧枫?佸浣撲笅娌夈?侀暅澶村洖鍒版淇骞舵贰鍑哄埌骞抽潰鍥俱??
+ *  3D 场景（three.js）—— 与 2D 共用 state / ui，切换时带过渡动画：
+ *  2D → 3D：3D 相机先以正俯视对齐当前 2D 视口（比例、位置一致），
+ *           交叉淡入后镜头倾斜环绕、墙体从地面升起、家具随后立起；
+ *  3D → 2D：反向——家具收起、墙体下沉、镜头回到正俯视并淡出到平面图。
  * ============================================================ */
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -1493,7 +1493,7 @@ import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
 import {CSS2DRenderer, CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
 
 const stage = $('#stage'), host = $('#view3d');
-const OX = 3250, OY = 7120, H = 2.8, FOV = 45;       // 鎴峰瀷涓績鏀惧湪涓栫晫鍘熺偣锛屽眰楂? 2.8 m
+const OX = 3250, OY = 7120, H = 2.8, FOV = 45;       // 户型中心放在世界原点，层高 2.8 m
 const wx = x => (x - OX) / 1000, wz = y => (y - OY) / 1000, M = v => v / 1000;
 const SW = () => stage.clientWidth, SH = () => stage.clientHeight;
 const opt = {cut:2.8, furn:true, labels:true, night:false, hour:10, mode:'orbit'};
@@ -1504,7 +1504,7 @@ let archFloor, archUp, furnG, labelG, lampG, colliders = [], selKey = null, selH
 let sigArch = '', sigFurn = '', sigLabels = '', grow = 1, furnGrow = 1;
 const doors = [], keys = {};
 
-/* ======================= 鍒濆鍖? ======================= */
+/* ======================= 初始化 ======================= */
 function init(){
   if (inited) return; inited = true;
   renderer = new THREE.WebGLRenderer({antialias:true, preserveDrawingBuffer:true});
@@ -1528,7 +1528,7 @@ function init(){
 
   hemi = new THREE.HemisphereLight(0xfff8ee, 0xb9a88f, 1.1);
   sun = new THREE.DirectionalLight(0xfff1dd, 2.6);
-  sun.castShadow = true; sun.shadow.mapSize.setScalar(COARSE ? 2048 : 4096);   // 骞虫澘 GPU 鐢ㄥ皬涓?鐐圭殑闃村奖璐村浘
+  sun.castShadow = true; sun.shadow.mapSize.setScalar(COARSE ? 2048 : 4096);   // 平板 GPU 用小一点的阴影贴图
   Object.assign(sun.shadow.camera, {left:-11, right:11, top:11, bottom:-11, near:1, far:60});
   sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
   ground = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshStandardMaterial({color:0xf2eee7, roughness:1}));
@@ -1553,8 +1553,8 @@ function init(){
   });
   cv.addEventListener('pointercancel', e => { if (look?.id === e.pointerId) look = null; });
 
-  // 鎸変綇宸查?変腑鐨勫鍏锋嫋鍔細娌垮湴闈㈡憜鏀撅紙涓? 2D 鍏辩敤缃戞牸鍜岃创澧欏惛闄勶級銆?
-  // 鍦ㄧ埗鍏冪礌涓婄敤鎹曡幏闃舵鐩戝惉锛岃刀鍦? OrbitControls 涔嬪墠鍏虫帀瀹冿紝閬垮厤鍚屾椂鏃嬭浆闀滃ご
+  // 按住已选中的家具拖动：沿地面摆放（与 2D 共用网格和贴墙吸附）。
+  // 在父元素上用捕获阶段监听，赶在 OrbitControls 之前关掉它，避免同时旋转镜头
   let fdrag = null;
   host.addEventListener('pointerdown', e => {
     if (e.target !== cv || !e.isPrimary || anim || opt.mode !== 'orbit' || ui.sel?.kind !== 'furn') return;
@@ -1569,7 +1569,7 @@ function init(){
     const f = getF(fdrag.id), g = groundAt(e.clientX, e.clientY); if (!f || !g) return;
     fdrag.moved = true; cv.style.cursor = 'grabbing';
     [f.cx, f.cy] = snapMove(f, g.x - fdrag.ox, g.y - fdrag.oy);
-    furnG.children.find(o => o.userData.fid === f.id)?.position.set(wx(f.cx), 0, wz(f.cy));   // 鎷栧姩涓彧鎸ā鍨嬶紝鏉炬墜鍐嶆暣浣撳悓姝?
+    furnG.children.find(o => o.userData.fid === f.id)?.position.set(wx(f.cx), 0, wz(f.cy));   // 拖动中只挪模型，松手再整体同步
   });
   const endF = e => {
     if (!fdrag || e.pointerId !== fdrag.pid) return;
@@ -1582,7 +1582,7 @@ function init(){
     const tap = downAt && Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]) <= TAP;
     if (look?.id === e.pointerId){
       look = null;
-      if (tap){ const h = pick(e); if (h?.door && h.dist < 3.5) h.door.open = !h.door.open; }   // 婕父鏃剁偣闂ㄥ紑鍏?
+      if (tap){ const h = pick(e); if (h?.door && h.dist < 3.5) h.door.open = !h.door.open; }   // 漫游时点门开关
       return;
     }
     if (anim || opt.mode !== 'orbit' || !tap) return;
@@ -1599,14 +1599,14 @@ function init(){
   bindUI();
 }
 
-/* ======================= 鏉愯川 ======================= */
+/* ======================= 材质 ======================= */
 const matCache = new Map();
 let envTex = null, envK = 1;
 function mat(color, o = {}){
   const key = color + JSON.stringify(o);
   if (!matCache.has(key)){
     const m = new THREE.MeshStandardMaterial({color, roughness:.7, ...o});
-    // 閲戝睘 / 鍏夋粦琛ㄩ潰鎸傜幆澧冨弽灏勶紝澧欓潰绛夊搼鍏夋潗璐ㄤ笉鎸傦紝閬垮厤鏁翠綋鍙樹寒
+    // 金属 / 光滑表面挂环境反射，墙面等哑光材质不挂，避免整体变亮
     if (envTex && (m.metalness > 0 || m.roughness < .4)){ m.envMap = envTex; m.userData.env = m.metalness > .5 ? 1 : .5; m.envMapIntensity = m.userData.env*envK; }
     matCache.set(key, m);
   }
@@ -1614,7 +1614,7 @@ function mat(color, o = {}){
 }
 function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 const rgbK = (hex, k) => { const n = parseInt(hex.slice(1), 16); const f = v => Math.max(0, Math.min(255, Math.round(v*k))); return `rgb(${f(n>>16&255)},${f(n>>8&255)},${f(n&255)})`; };
-// 鍦伴潰璐村浘鎸夌湡瀹炲昂瀵稿钩閾猴紙UV 鍗曚綅 = 绫筹級
+// 地面贴图按真实尺寸平铺（UV 单位 = 米）
 const TEX = {
   wood:{sx:1.8, sy:.36, base:'#d6b58a', rough:.55}, walnut:{sx:1.8, sy:.36, base:'#9a6f4b', rough:.5},
   tile800:{sx:.8, sy:.8, base:'#ebe6dd', grout:'#cfc6b7', rough:.3}, tile600:{sx:.6, sy:.6, base:'#dfe3e0', grout:'#bfc6c1', rough:.35},
@@ -1658,7 +1658,7 @@ function floorMat(kind){
   return floorMats[kind] = new THREE.MeshStandardMaterial({map:t, roughness:s.rough});
 }
 
-/* ======================= 鍑犱綍灏忓伐鍏凤紙y = 搴曢潰楂樺害锛? ======================= */
+/* ======================= 几何小工具（y = 底面高度） ======================= */
 const asMat = m => typeof m === 'string' ? mat(m) : m;
 const sh = o => { o.castShadow = o.receiveShadow = true; return o; };
 const mesh = (geo, m) => sh(new THREE.Mesh(geo, asMat(m)));
@@ -1672,29 +1672,29 @@ function rbox(w, h, d, m, x = 0, y = 0, z = 0, r = .04){
 function cyl(rt, rb, h, m, x = 0, y = 0, z = 0, seg = 28){
   const o = mesh(new THREE.CylinderGeometry(rt, rb, h, seg), m); o.position.set(x, y + h/2, z); return o;
 }
-// 鏃嬭浆浣擄細pts = [[鍗婂緞, 楂樺害], 鈥 鑷笅鑰屼笂锛寉 = 搴曢潰
+// 旋转体：pts = [[半径, 高度], …] 自下而上，y = 底面
 function lathe(pts, m, x = 0, y = 0, z = 0, seg = 40){
   const o = mesh(new THREE.LatheGeometry(pts.map(([r, h]) => new THREE.Vector2(Math.max(r, 1e-4), h)), seg), m); o.position.set(x, y, z); return o;
 }
-// 涓ょ偣涔嬮棿鐨勫渾鏉嗭紝r0 鍦? a 绔?乺1 鍦? b 绔紙鏀跺垎妞呰吙銆佹枩鎾戯級
+// 两点之间的圆杆，r0 在 a 端、r1 在 b 端（收分椅腿、斜撑）
 function rod(a, b, r0, m, r1 = r0, seg = 12){
   const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), o = mesh(new THREE.CylinderGeometry(r1, r0, A.distanceTo(B), seg), m);
   o.position.copy(A).add(B).multiplyScalar(.5); o.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.sub(A).normalize()); return o;
 }
-// 娌挎洸绾跨殑鍦嗙锛堟按榫欏ご銆佹壎鎵嬨?佺伅鑷傦級
+// 沿曲线的圆管（水龙头、扶手、灯臂）
 const tube = (pts, r, m, seg = 40) => mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts.map(p => new THREE.Vector3(...p)), false, 'centripetal'), seg, r, 10), m);
-// 妞悆锛堥潬鍨?佸彾鐗囥?佽眴琚嬶級锛寉 = 涓績
+// 椭球（靠垫、叶片、豆袋），y = 中心
 function blob(rx, ry, rz, m, x = 0, y = 0, z = 0, seg = 24){
   const o = mesh(new THREE.SphereGeometry(1, seg, Math.round(seg*.7)), m); o.scale.set(rx, ry, rz); o.position.set(x, y, z); return o;
 }
-// 姘村钩鍦嗙幆锛寉 = 涓績
+// 水平圆环，y = 中心
 function ring(R, r, m, x = 0, y = 0, z = 0){ const o = mesh(new THREE.TorusGeometry(R, r, 10, 48), m); o.rotation.x = Math.PI/2; o.position.set(x, y, z); return o; }
 function rrect(w, d, r){
   const s = new THREE.Shape(), x = -w/2, y = -d/2; r = Math.min(r, w/2 - .001, d/2 - .001);
   s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + d - r); s.quadraticCurveTo(x + w, y + d, x + w - r, y + d);
   s.lineTo(x + r, y + d); s.quadraticCurveTo(x, y + d, x, y + d - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
 }
-// 涓┖鍦嗚妗嗭紙娴寸几銆佹按妲芥部銆佹鑳屾锛夛細澶? w脳d銆佸鍘? t銆侀珮 h
+// 中空圆角框（浴缸、水槽沿、椅背框）：外 w×d、壁厚 t、高 h
 function shell(w, d, h, t, r, m, x = 0, y = 0, z = 0){
   const s = rrect(w, d, r); s.holes.push(rrect(w - 2*t, d - 2*t, Math.max(.004, r - t)));
   const geo = new THREE.ExtrudeGeometry(s, {depth:h, bevelEnabled:false, curveSegments:10}); geo.rotateX(-Math.PI/2);
@@ -1702,7 +1702,7 @@ function shell(w, d, h, t, r, m, x = 0, y = 0, z = 0){
 }
 const darker = (hex, k = .8) => '#' + new THREE.Color(hex).multiplyScalar(k).getHexString();
 const lighter = (hex, k = .2) => '#' + new THREE.Color(hex).lerp(new THREE.Color('#ffffff'), k).getHexString();
-// 鍥涙潯鏀跺垎鑵匡細inset 涓鸿窛杈硅窛绂伙紝r 涓鸿吙搴曞崐寰勶紙椤堕儴鐣ョ矖锛?
+// 四条收分腿：inset 为距边距离，r 为腿底半径（顶部略粗）
 const legs = (g, w, d, h, m, inset = .05, r = .02) => [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a, b]) => g.add(rod([a*(w/2-inset), 0, b*(d/2-inset)], [a*(w/2-inset), h, b*(d/2-inset)], r*.7, m, r)));
 const metal = () => mat('#cfd2d4', {metalness:.9, roughness:.25});
 const chrome = () => mat('#eef0f2', {metalness:1, roughness:.08});
@@ -1715,7 +1715,7 @@ const woodM = c => mat(c, {roughness:.55});
 const screenMat = (glow = '#1a2636') => mat('#0b0e13', {roughness:.1, metalness:.3, emissive:glow, emissiveIntensity:.35});
 const glowMat = (c = '#fff4dc', e = '#ffdca0', k = .5) => mat(c, {emissive:e, emissiveIntensity:k, roughness:.9, side:THREE.DoubleSide});
 
-// 鎷夋墜锛歽 涓烘媺鎵嬩腑蹇冿紝z 涓洪棬鏉挎闈?
+// 拉手：y 为拉手中心，z 为门板正面
 function pull(g, len, vert, x, y, z){
   const m = hwMat(), o = new THREE.Group();
   o.add(vert ? box(.01, len, .01, m, 0, -len/2, .028) : box(len, .01, .01, m, 0, -.005, .028));
@@ -1723,11 +1723,11 @@ function pull(g, len, vert, x, y, z){
   o.position.set(x, y, z); g.add(o);
 }
 function knob(g, x, y, z){ const k = cyl(.011, .014, .02, hwMat(), x, y - .01, z + .01, 16); k.rotation.x = Math.PI/2; g.add(k, blob(.014, .014, .008, hwMat(), x, y, z + .022, 12)); }
-// 鏌滈棬 / 鎶藉眽闈㈡澘锛歺0..x0+w銆亂0..y0+h 鍖哄煙鍐? nx 鍒? 脳 ny 琛岋紝姝ｉ潰鏈? +z锛坺 = 鏌滀綋姝ｉ潰锛?
-// hd锛?'bar' 閲戝睘鎷夋墜 | 'knob' 鍦嗛挳 | 'edge' 椤堕儴闅愬舰鎷夋Ы | 'none'锛沨y锛氶棬鎷夋墜涓績楂樺害锛坣ull = 闈㈡澘涓儴锛?
+// 柜门 / 抽屉面板：x0..x0+w、y0..y0+h 区域内 nx 列 × ny 行，正面朝 +z（z = 柜体正面）
+// hd：'bar' 金属拉手 | 'knob' 圆钮 | 'edge' 顶部隐形拉槽 | 'none'；hy：门拉手中心高度（null = 面板中部）
 function fronts(g, x0, y0, w, h, z, nx, ny, m, hd = 'bar', hy = null){
   const gap = .005, pw = w/nx, ph = h/ny, fz = z + .018;
-  g.add(box(w, h, .002, '#2a2724', x0 + w/2, y0, z + .001));                     // 缂濋殭閲岄?忓嚭鐨勬殫鑹?
+  g.add(box(w, h, .002, '#2a2724', x0 + w/2, y0, z + .001));                     // 缝隙里透出的暗色
   for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++){
     const cx = x0 + pw*(i + .5), yb = y0 + ph*j, drawer = ph < .4 && pw >= ph;
     g.add(rbox(pw - gap, ph - gap, .018, m, cx, yb + gap/2, z + .009, .003));
@@ -1755,19 +1755,19 @@ function tableLamp(g, x, y, z, s = 1){
 }
 const plate = (g, r, x, y, z) => g.add(lathe([[0, 0], [r*.6, 0], [r*.72, .008], [r, .02]], ceramic({side:THREE.DoubleSide}), x, y, z, 32));
 
-/* ======================= 瀹跺叿妯″瀷锛堝眬閮ㄥ潗鏍囷細鑳岄潰鏈? -z锛? ======================= */
+/* ======================= 家具模型（局部坐标：背面朝 -z） ======================= */
 function buildFurniture(f){
   const g = new THREE.Group(), w = M(f.w), d = M(f.d), c = f.color || '#ddd', bz = -d/2, R = rng(Math.round(f.w*7 + f.d*13 + f.cx + f.cy));
   switch (f.type){
     case 'bed': {
       const fr = woodM('#8d7258'), fab = fabric(c), fh = .3, mt = .22, top = fh + mt, n = Math.max(3, Math.round(w/.28)), sw = (w - .04)/n;
-      g.add(box(w - .12, .06, d - .14, '#4a3e33', 0, 0, .03), rbox(w, fh - .06, d - .08, fr, 0, .06, .04, .015));        // 鍐呯缉韪㈣剼 + 搴婄
-      g.add(rbox(w, 1.08, .06, fr, 0, 0, bz + .03, .012));                                                                 // 搴婂ご鏉?
-      for (let i = 0; i < n; i++) g.add(rbox(sw - .006, .62, .06, fabric(darker(c, .8)), -w/2 + .02 + sw*(i + .5), .42, bz + .08, .025));   // 绔栧悜杞寘
+      g.add(box(w - .12, .06, d - .14, '#4a3e33', 0, 0, .03), rbox(w, fh - .06, d - .08, fr, 0, .06, .04, .015));        // 内缩踢脚 + 床箱
+      g.add(rbox(w, 1.08, .06, fr, 0, 0, bz + .03, .012));                                                                 // 床头板
+      for (let i = 0; i < n; i++) g.add(rbox(sw - .006, .62, .06, fabric(darker(c, .8)), -w/2 + .02 + sw*(i + .5), .42, bz + .08, .025));   // 竖向软包
       const md = d - .13, dd = md*.66, dz = d/2 - .015 - dd/2;
-      g.add(rbox(w - .06, mt, md, '#f6f3ee', 0, fh, bz + .11 + md/2, .07));                                              // 搴婂灚
-      g.add(rbox(w + .02, .27, dd, fab, 0, top - .2, dz, .04), rbox(w + .024, .06, .22, fabric('#fbfaf7'), 0, top + .025, dz - dd/2 + .11, .025));   // 琚瓙 + 缈昏竟
-      g.add(rbox(w + .05, .285, .42, fabric(darker(c, .62)), 0, top - .205, d/2 - .35, .03));                               // 搴婂熬宸?
+      g.add(rbox(w - .06, mt, md, '#f6f3ee', 0, fh, bz + .11 + md/2, .07));                                              // 床垫
+      g.add(rbox(w + .02, .27, dd, fab, 0, top - .2, dz, .04), rbox(w + .024, .06, .22, fabric('#fbfaf7'), 0, top + .025, dz - dd/2 + .11, .025));   // 被子 + 翻边
+      g.add(rbox(w + .05, .285, .42, fabric(darker(c, .62)), 0, top - .205, d/2 - .35, .03));                               // 床尾巾
       const np = w >= 1.3 ? 2 : 1, pw = (w - .16 - (np-1)*.06)/np;
       for (let i = 0; i < np; i++){
         const x = -w/2 + .08 + pw/2 + i*(pw + .06);
@@ -1822,7 +1822,7 @@ function buildFurniture(f){
         g.add(box(w, .02, d - .02, darker(c, .9), 0, h - .02, -.01));
       } else if (f.type === 'shoecab'){
         const h = 1.0, y0 = .16, n = Math.max(1, Math.round(w/.45));
-        g.add(box(w, h - y0, d - .02, cm, 0, y0, -.01), box(w - .04, .01, .03, glowMat('#fff7e6', '#ffe9c4', .8), 0, y0 - .01, fz - .06));   // 鎮┖ + 搴曢儴鐏甫
+        g.add(box(w, h - y0, d - .02, cm, 0, y0, -.01), box(w - .04, .01, .03, glowMat('#fff7e6', '#ffe9c4', .8), 0, y0 - .01, fz - .06));   // 悬空 + 底部灯带
         fronts(g, -w/2, y0, w, h - y0, fz, n, 1, cm, 'edge');
         g.add(rbox(w + .01, .025, d, woodM(darker(c, .8)), 0, h, 0, .006));
         g.add(rbox(.22, .015, .14, woodM('#6b543f'), -w*.25, h + .025, 0, .006));
@@ -1835,7 +1835,7 @@ function buildFurniture(f){
         fronts(g, -w/2, .1, w, .52, fz, n, 1, cm, 'bar', .52);
         g.add(rbox(w + .02, .03, d + .01, woodM(darker(c, .78)), 0, h - .03, 0, .008));
         vase(g, w*.3, h, 0, .07, .24, '#e9e2d6', R);
-        g.add(rot(box(.3, .38, .02, woodM('#3a3027'), -w*.25, h, bz + .06), -.12), rot(box(.25, .33, .005, '#d9cfbf', -w*.25, h + .03, bz + .075), -.12));   // 闈犲鐢绘
+        g.add(rot(box(.3, .38, .02, woodM('#3a3027'), -w*.25, h, bz + .06), -.12), rot(box(.25, .33, .005, '#d9cfbf', -w*.25, h + .03, bz + .075), -.12));   // 靠墙画框
         g.add(lathe([[0, 0], [.05, 0], [.12, .06], [.13, .07]], mat('#b8a58c', {roughness:.5, side:THREE.DoubleSide}), 0, h, .02, 32));
         for (let k = 0; k < 3; k++) g.add(blob(.035, .035, .035, ['#d98c4a', '#c9ad4f', '#b5463a'][k], Math.cos(k*2.1)*.04, h + .045, .02 + Math.sin(k*2.1)*.04, 14));
       }
@@ -2119,9 +2119,9 @@ function buildFurniture(f){
       const cm = mat(c, {roughness:.45}), stone = mat('#dcd7cf', {roughness:.2}), cd = d - .3, n = Math.max(1, Math.round((w - .1)/.6)), cab = new THREE.Group(), fz = cd/2 - .03;
       cab.add(box(w - .12, .1, cd - .08, '#4a4641', 0, 0, -.04), box(w - .1, .74, cd - .03, cm, 0, .1, -.015));
       fronts(cab, -w/2 + .05, .64, w - .1, .2, fz, n, 1, cm, 'bar'); fronts(cab, -w/2 + .05, .1, w - .1, .54, fz, n, 1, cm, 'bar', .56);
-      cab.rotation.y = Math.PI; cab.position.z = bz + cd/2; g.add(cab);                    // 鏌滈棬鏈? -z锛?+z 渚х暀鍑哄惂鍙版寫绌?
+      cab.rotation.y = Math.PI; cab.position.z = bz + cd/2; g.add(cab);                    // 柜门朝 -z，+z 侧留出吧台挑空
       g.add(rbox(w, .05, d, stone, 0, .84, 0, .006));
-      [-1, 1].forEach(s => g.add(box(.04, .84, d, stone, s*(w/2 - .02), 0, 0)));             // 鐎戝竷寮忎晶鏉?
+      [-1, 1].forEach(s => g.add(box(.04, .84, d, stone, s*(w/2 - .02), 0, 0)));             // 瀑布式侧板
       g.add(lathe([[0, 0], [.06, 0], [.14, .06], [.15, .07]], mat('#6b543f', {roughness:.5, side:THREE.DoubleSide}), w*.22, .89, 0, 32));
       for (let k = 0; k < 4; k++) g.add(blob(.04, .04, .04, ['#d98c4a', '#9fbf5a', '#b5463a', '#e6c14f'][k], w*.22 + Math.cos(k*1.6)*.05, .935 + (k === 3 ? .04 : 0), Math.sin(k*1.6)*.05, 14));
       vase(g, -w*.25, .89, -.05, .05, .22, '#e9e2d6', R);
@@ -2238,18 +2238,18 @@ function buildFurniture(f){
     default: g.add(box(w, .8, d, c));
   }
   g.position.set(wx(f.cx), 0, wz(f.cy));
-  g.rotation.y = -f.rot * Math.PI/180;       // 骞抽潰椤烘椂閽堟棆杞? 鈫? 缁? Y 杞磋礋鍚?
+  g.rotation.y = -f.rot * Math.PI/180;       // 平面顺时针旋转 → 绕 Y 轴负向
   g.userData.fid = f.id;
   return g;
 }
 
-/* ======================= 寤虹瓚 ======================= */
+/* ======================= 建筑 ======================= */
 function clearGroup(g){ g.traverse(o => { if (o.geometry) o.geometry.dispose(); }); g.clear(); }
 function wallBox([x0, y0, x1, y1], yb, yt, m){
   if (yt - yb <= .001) return;
   const o = new THREE.Mesh(new THREE.BoxGeometry(M(x1-x0), yt-yb, M(y1-y0)), m || [wallMat, wallMat, capMat, wallMat, wallMat, wallMat]);
   o.position.set(wx((x0+x1)/2), (yb+yt)/2, wz((y0+y1)/2)); o.castShadow = o.receiveShadow = true; archUp.add(o);
-  // 婕父杈呭姪锛氬浣撴１绾? + 韪㈣剼绾匡紝璁╃浉閭诲闈€?佸瑙掍竴鐪煎彲鍒嗭紙浠呮极娓告ā寮忔樉绀猴級
+  // 漫游辅助：墙体棱线 + 踢脚线，让相邻墙面、墙角一眼可分（仅漫游模式显示）
   const ln = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry), edgeMat); ln.position.copy(o.position); ln.userData.walkOnly = true; ln.visible = opt.mode === 'walk'; archUp.add(ln);
   if (yb <= .001){
     const p = o.geometry.parameters, sh = Math.min(.12, yt), sk = new THREE.Mesh(new THREE.BoxGeometry(p.width + .02, sh, p.depth + .02), skirtMat);
@@ -2269,7 +2269,7 @@ function buildArch(){
     const fl = new THREE.Mesh(geo, bay ? [m, mat('#e9e4da')] : m);
     fl.receiveShadow = true; fl.userData.room = r.id;
     if (bay){ fl.castShadow = true; archUp.add(fl); } else archFloor.add(fl); if (r.exterior) return;
-    // 澶╄姳锛氭硶绾挎湞涓嬶紝鍙湪瀹ゅ唴浠拌鏃跺彲瑙?
+    // 天花：法线朝下，只在室内仰视时可见
     const cg = new THREE.ShapeGeometry(shapeOf(r.poly, true)); cg.rotateX(Math.PI/2);
     const ceil = new THREE.Mesh(cg, mat('#fbfaf7', {roughness:1})); ceil.position.y = H; ceil.visible = top >= H; archUp.add(ceil);
     if (r.at){
@@ -2284,7 +2284,7 @@ function buildArch(){
     wallBox(w, 0, w[4] === 'low' ? Math.min(1, top) : top);
     colliders.push([wx(w[0]), wz(w[1]), wx(w[2]), wz(w[3])]);
   });
-  // 闂ㄦ礊銆侀绐楁礊鍙ｄ笂鏂硅繃姊?
+  // 门洞、飘窗洞口上方过梁
   [...DOORS.map(d => [d.rect, 2.1]), ...SLIDES.map(s => [s.rect, s.v ? 2.4 : 2.1])]
     .forEach(([r, h]) => { if (top > h) wallBox(r, h, top); });
   WINS.forEach((r, i) => {
@@ -2332,12 +2332,12 @@ function buildLabels(){
   labelG.children.slice().forEach(o => { o.element.remove(); labelG.remove(o); });
   ROOMS.filter(r => r.at).forEach(r => {
     const el = document.createElement('div'); el.className = 'rlabel';
-    el.innerHTML = `${esc(nm(state.rooms[r.id].name))}<small>${area(r.poly).toFixed(1)}m虏</small>`;
+    el.innerHTML = `${esc(nm(state.rooms[r.id].name))}<small>${area(r.poly).toFixed(1)}m²</small>`;
     const o = new CSS2DObject(el); o.position.set(wx(r.at[0]), opt.cut + .15, wz(r.at[1])); o.visible = labelG.visible; labelG.add(o);
   });
   const counted = ROOMS.filter(r => r.counted !== false);
-  $('#roomList').innerHTML = counted.map(r => `<button data-room="${r.id}"><span>${esc(nm(state.rooms[r.id].name))}</span><small>${area(r.poly).toFixed(2)} m虏</small></button>`).join('')
-    + `<button data-room="__all"><span>${tr('鍏ㄥ眿', 'Whole home')}</span><small>${counted.reduce((a, r) => a + area(r.poly), 0).toFixed(2)} m虏</small></button>`;
+  $('#roomList').innerHTML = counted.map(r => `<button data-room="${r.id}"><span>${esc(nm(state.rooms[r.id].name))}</span><small>${area(r.poly).toFixed(2)} m²</small></button>`).join('')
+    + `<button data-room="__all"><span>${tr('全屋', 'Whole home')}</span><small>${counted.reduce((a, r) => a + area(r.poly), 0).toFixed(2)} m²</small></button>`;
   document.querySelectorAll('#roomList button').forEach(b => b.onclick = () => {
     document.querySelectorAll('#roomList button').forEach(x => x.classList.toggle('on', x === b));
     if (opt.mode === 'walk') setMode('orbit');
@@ -2345,7 +2345,7 @@ function buildLabels(){
   });
 }
 
-// 鍙噸寤哄彉鍖栫殑閮ㄥ垎
+// 只重建变化的部分
 function sync(force){
   if (!inited || (!active && !force)) return;
   const a = JSON.stringify([state.rooms, state.demolished, opt.cut]), f = JSON.stringify(state.furniture), l = JSON.stringify([state.rooms, opt.cut]);
@@ -2354,7 +2354,7 @@ function sync(force){
   if (force || l !== sigLabels){ sigLabels = l; buildLabels(); }
 }
 
-// CSS2DRenderer 鍙湅鏍囩鑷韩鐨? visible锛屼笉缁ф壙鐖剁骇锛屾墍浠ラ?愪釜璁剧疆
+// CSS2DRenderer 只看标签自身的 visible，不继承父级，所以逐个设置
 function showLabels(v){ labelG.visible = v; labelG.children.forEach(o => o.visible = v); }
 function applyGrow(){
   if (!inited) return;
@@ -2363,7 +2363,7 @@ function applyGrow(){
   lampG.visible = grow > .99;
 }
 
-/* ======================= 鏃ョ収 / 澶滄櫙 ======================= */
+/* ======================= 日照 / 夜景 ======================= */
 function applyLight(){
   const t = (opt.hour - 6) / 12, az = Math.PI * (.15 + t*.7), el = Math.sin(Math.PI*t) * 1.05 + .15, warm = 1 - Math.sin(Math.PI*t);
   sun.position.set(Math.cos(az)*18, Math.sin(el)*20 + 3, -Math.sin(az)*10 + 8); sun.target.position.set(0, 0, 0);
@@ -2379,11 +2379,11 @@ function applyLight(){
   $('#sunT').textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 }
 
-/* ======================= 鐩告満浣嶅Э / 鍔ㄧ敾 ======================= */
+/* ======================= 相机位姿 / 动画 ======================= */
 const ease = t => t < .5 ? 4*t*t*t : 1 - (-2*t + 2)**3/2;
 const clamp01 = t => Math.max(0, Math.min(1, t));
 const pose = (t, p) => ({t, p});
-// 涓庡綋鍓? 2D 瑙嗗彛瀹屽叏閲嶅悎鐨勬淇浣嶅Э锛氶?忚鐩告満鍦ㄨ楂樺害涓嬶紝鍦伴潰鍙楂樺害 = 2D 瑙嗗彛楂樺害
+// 与当前 2D 视口完全重合的正俯视位姿：透视相机在该高度下，地面可视高度 = 2D 视口高度
 function planPose(){
   const cx = view.x0 + SW()/2/view.s, cy = view.y0 + SH()/2/view.s, visH = SH()/view.s/1000;
   const dist = visH / 2 / Math.tan(FOV/2*Math.PI/180), t = new THREE.Vector3(wx(cx), 0, wz(cy));
@@ -2396,7 +2396,7 @@ function isoFrom(P){
 const isoWhole = () => pose(new THREE.Vector3(0, 0, 0), new THREE.Vector3(7.2, 19, 15));
 const topWhole = () => pose(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 21, 1e-4));
 const curPose = () => pose(orbit.target.clone(), camera.position.clone());
-// 浠ョ洰鏍囩偣涓轰腑蹇冨仛鐞冨潗鏍囨彃鍊硷細闀滃ご娌垮姬绾垮?炬枩鐜粫锛岃?屼笉鏄洿绾跨┛瓒?
+// 以目标点为中心做球坐标插值：镜头沿弧线倾斜环绕，而不是直线穿越
 function camTween(A, B, e){
   const t = A.t.clone().lerp(B.t, e);
   const sa = new THREE.Spherical().setFromVector3(A.p.clone().sub(A.t)), sb = new THREE.Spherical().setFromVector3(B.p.clone().sub(B.t));
@@ -2417,7 +2417,7 @@ function flyToRoom(id){
   flyTo(pose(t, new THREE.Vector3(t.x + dir.x*dist*.7, dist*1.05, t.z + dir.z*dist*.7)));
 }
 
-/* ======================= 杩涘叆 / 閫?鍑? 3D ======================= */
+/* ======================= 进入 / 退出 3D ======================= */
 async function enter(){
   init(); active = true;
   renderer.setSize(SW(), SH()); labelRenderer.setSize(SW(), SH()); camera.aspect = SW()/SH(); camera.updateProjectionMatrix();
@@ -2427,7 +2427,7 @@ async function enter(){
   grow = 0; furnGrow = 0; applyGrow(); setPose(A);
   stage.classList.add('animating');
   startLoop(); renderer.render(scene, camera);
-  stage.classList.add('is3d');                       // 浜ゅ弶娣″叆锛氭鍒? 3D 鐢婚潰涓? 2D 骞抽潰瀹屽叏閲嶅悎
+  stage.classList.add('is3d');                       // 交叉淡入：此刻 3D 画面与 2D 平面完全重合
   await wait(420);
   await animate(1700, t => {
     camTween(A, B, ease(clamp01(t/.85)));
@@ -2449,14 +2449,14 @@ async function exit(){
     grow = 1 - ease(clamp01((t - .2)/.6));
     applyGrow();
   });
-  stage.classList.remove('is3d');                    // 姝ゅ埢 3D 宸插帇骞充负姝ｄ刊瑙嗭紝涓? 2D 閲嶅悎鍚庢贰鍑?
+  stage.classList.remove('is3d');                    // 此刻 3D 已压平为正俯视，与 2D 重合后淡出
   await wait(450);
   active = false; cancelAnimationFrame(raf); raf = 0;
   stage.classList.remove('animating');
   grow = furnGrow = 1; applyGrow();
 }
 
-/* ======================= 閫夋嫨 / 鎷惧彇 ======================= */
+/* ======================= 选择 / 拾取 ======================= */
 const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
 function pick(e){
   if (!e) ptr.set(0, 0);
@@ -2470,11 +2470,11 @@ function pick(e){
     if (o.userData.room) return {room:o.userData.room};
     while (o && !o.userData.fid && o !== scene) o = o.parent;
     if (o?.userData.fid) return {fid:o.userData.fid};
-    return null;                                     // 琚浣撴尅浣?
+    return null;                                     // 被墙体挡住
   }
   return null;
 }
-// 灞忓箷鐐? 鈫? 鍦伴潰锛坹 = 0锛変笂鐨勬埛鍨嬪潗鏍? mm锛泂 = 璇ュ姣? mm 瀵瑰簲鐨勫睆骞曞儚绱狅紝鐢ㄤ簬鎷栨斁鏃剁殑骞界伒鍥惧ぇ灏?
+// 屏幕点 → 地面（y = 0）上的户型坐标 mm；s = 该处每 mm 对应的屏幕像素，用于拖放时的幽灵图大小
 const ground0 = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 function groundAt(x, y){
   if (!active || anim) return null;
@@ -2482,7 +2482,7 @@ function groundAt(x, y){
   ptr.set((x - r.left)/r.width*2 - 1, -(y - r.top)/r.height*2 + 1);
   ray.setFromCamera(ptr, camera);
   if (!ray.ray.intersectPlane(ground0, hit) || hit.distanceTo(camera.position) > 60) return null;
-  // 瑙嗙嚎鍏堢鍒板浣擄紙鎴栭绐楀彴锛夋椂锛岃惤鐐瑰彇纰板埌鐨勪綅缃紝鑰屼笉鏄┛杩囧钀藉埌鐪嬩笉瑙佺殑澧欏悗
+  // 视线先碰到墙体（或飘窗台）时，落点取碰到的位置，而不是穿过墙落到看不见的墙后
   const wall = ray.intersectObjects([archUp, archFloor], true).find(h => h.object.material !== glassMat && h.object.visible);
   if (wall && wall.distance < hit.distanceTo(camera.position) - .01) hit.set(wall.point.x, 0, wall.point.z);
   const px = v => new THREE.Vector2(v.x*r.width/2, v.y*r.height/2), a = px(hit.clone().project(camera));
@@ -2501,12 +2501,12 @@ function updateSel(){
   if (selHelper) selHelper.update();
 }
 
-/* ======================= 婕父 ======================= */
-// 瑙﹀睆婕父锛氬乏涓嬭櫄鎷熸憞鏉嗙Щ鍔紝鍦ㄧ敾闈笂鎷栧姩杞悜锛坕Pad 涓嶆敮鎸侀紶鏍囨寚閽堥攣瀹氾級
-const HINT_ORBIT = () => COARSE ? tr('鍗曟寚鏃嬭浆 路 鍙屾寚缂╂斁 / 骞崇Щ 路 鐐归?夊鍏峰悗鍙嫋鍔ㄦ憜鏀? 路 鐐归棬寮?鍏?', '1 finger orbits 路 2 fingers zoom / pan 路 select furniture to drag it 路 tap doors to open')
-  : tr('宸﹂敭鏃嬭浆 路 鍙抽敭骞崇Щ 路 婊氳疆缂╂斁 路 閫変腑瀹跺叿鍚庢嫋鍔ㄥ彲鎽嗘斁 路 鐐瑰嚮闂ㄥ紑鍏?', 'Left-drag orbits 路 right-drag pans 路 scroll zooms 路 select furniture to drag it 路 click doors to open');
-const HINT_TOUCHWALK = () => tr('宸︿笅鎽囨潌绉诲姩 路 鎷栧姩鐢婚潰杞悜 路 鐐归棬寮?鍏?', 'Joystick moves 路 drag to look 路 tap doors to open');
-const HINT_WALK = () => tr('WASD 绉诲姩 路 榧犳爣杞悜 路 Shift 蹇蛋 路 E 寮?鍏抽棬 路 Esc 鏆傚仠', 'WASD moves 路 mouse looks 路 Shift runs 路 E opens doors 路 Esc pauses');
+/* ======================= 漫游 ======================= */
+// 触屏漫游：左下虚拟摇杆移动，在画面上拖动转向（iPad 不支持鼠标指针锁定）
+const HINT_ORBIT = () => COARSE ? tr('单指旋转 · 双指缩放 / 平移 · 点选家具后可拖动摆放 · 点门开关', '1 finger orbits · 2 fingers zoom / pan · select furniture to drag it · tap doors to open')
+  : tr('左键旋转 · 右键平移 · 滚轮缩放 · 选中家具后拖动可摆放 · 点击门开关', 'Left-drag orbits · right-drag pans · scroll zooms · select furniture to drag it · click doors to open');
+const HINT_TOUCHWALK = () => tr('左下摇杆移动 · 拖动画面转向 · 点门开关', 'Joystick moves · drag to look · tap doors to open');
+const HINT_WALK = () => tr('WASD 移动 · 鼠标转向 · Shift 快走 · E 开关门 · Esc 暂停', 'WASD moves · mouse looks · Shift runs · E opens doors · Esc pauses');
 function syncHint3d(){ $('#hint3d').textContent = opt.mode === 'orbit' ? HINT_ORBIT() : touchWalk ? HINT_TOUCHWALK() : HINT_WALK(); }
 let touchWalk = false;
 const joy = {x:0, y:0, id:null}, eul = new THREE.Euler(0, 0, 0, 'YXZ');
@@ -2544,7 +2544,7 @@ function setMode(m){
     window.select(null);
     if (opt.cut < H){ opt.cut = H; syncCutBtns(); sync(); }
     orbit.enabled = false; fly = null;
-    camera.position.set(wx(1300), 1.6, wz(3300)); camera.lookAt(wx(2650), 1.5, wz(3900));   // 鍏ユ埛闂ㄥ
+    camera.position.set(wx(1300), 1.6, wz(3300)); camera.lookAt(wx(2650), 1.5, wz(3900));   // 入户门外
     $('#walkOverlay').style.display = 'flex';
     syncHint3d();
   } else {
@@ -2573,7 +2573,7 @@ function stepWalk(dt){
   if (keys.KeyW || keys.ArrowUp) mv.add(fwd); if (keys.KeyS || keys.ArrowDown) mv.sub(fwd);
   if (keys.KeyD || keys.ArrowRight) mv.add(right); if (keys.KeyA || keys.ArrowLeft) mv.sub(right);
   if (touchWalk){ mv.addScaledVector(fwd, -joy.y).addScaledVector(right, joy.x); }
-  const mag = Math.min(1, mv.length());        // 鎽囨潌鎺ㄥ緱瓒婅繙璧板緱瓒婂揩
+  const mag = Math.min(1, mv.length());        // 摇杆推得越远走得越快
   if (mag < .05) return;
   mv.normalize().multiplyScalar(sp * mag);
   const p = camera.position;
@@ -2587,22 +2587,22 @@ addEventListener('keydown', e => {
 });
 addEventListener('keyup', e => keys[e.code] = false);
 
-/* ======================= 宸ュ叿鏍? ======================= */
+/* ======================= 工具栏 ======================= */
 function syncModeBtns(){ document.querySelectorAll('#modes3d .btn').forEach(b => b.classList.toggle('on', b.dataset.mode === opt.mode)); }
 function syncCutBtns(){ document.querySelectorAll('[data-cut]').forEach(b => b.classList.toggle('on', +b.dataset.cut === opt.cut)); }
 function syncWalkTexts(){
   const t = COARSE
-    ? [tr('鐐瑰嚮寮?濮嬶紝浠庡叆鎴烽棬杩涘叆', 'Tap to start at the front door'), tr('宸︿笅鎽囨潌绉诲姩 路 鍦ㄧ敾闈笂鎷栧姩杞悜', 'Joystick moves 路 drag on screen to look'),
-       tr('鐐归棬寮?鍏? 路 鐐广?岄??鍑烘极娓搞?嶅洖鍒伴笩鐬?', 'Tap doors to open 路 "Exit walk" returns to orbit')]
-    : [tr('鐐瑰嚮寮?濮嬶紝浠庡叆鎴烽棬杩涘叆', 'Click to start at the front door'),
-       tr('<kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> 绉诲姩 路 榧犳爣杞悜 路 <kbd>Shift</kbd> 蹇蛋', '<kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> move 路 mouse looks 路 <kbd>Shift</kbd> runs'),
-       tr('<kbd>E</kbd> 寮?鍏虫鍓嶆柟鐨勯棬 路 <kbd>Esc</kbd> 鏆傚仠', '<kbd>E</kbd> opens the door ahead 路 <kbd>Esc</kbd> pauses')];
+    ? [tr('点击开始，从入户门进入', 'Tap to start at the front door'), tr('左下摇杆移动 · 在画面上拖动转向', 'Joystick moves · drag on screen to look'),
+       tr('点门开关 · 点「退出漫游」回到鸟瞰', 'Tap doors to open · "Exit walk" returns to orbit')]
+    : [tr('点击开始，从入户门进入', 'Click to start at the front door'),
+       tr('<kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> 移动 · 鼠标转向 · <kbd>Shift</kbd> 快走', '<kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> move · mouse looks · <kbd>Shift</kbd> runs'),
+       tr('<kbd>E</kbd> 开关正前方的门 · <kbd>Esc</kbd> 暂停', '<kbd>E</kbd> opens the door ahead · <kbd>Esc</kbd> pauses')];
   t.forEach((h, i) => $('#wo' + (i + 1)).innerHTML = h);
   syncHint3d();
 }
 function bindUI(){
   document.querySelectorAll('#modes3d .btn').forEach(b => b.onclick = () => setMode(b.dataset.mode));
-  // 瑙﹀睆璁惧鐢ㄦ憞鏉嗘极娓革紱妗岄潰绔攣瀹氶紶鏍囷紝閿佸畾澶辫触鏃朵篃閫?鍥炲埌鎽囨潌
+  // 触屏设备用摇杆漫游；桌面端锁定鼠标，锁定失败时也退回到摇杆
   $('#walkOverlay').onclick = () => COARSE ? startTouchWalk() : walkCtl.lock();
   document.addEventListener('pointerlockerror', () => { if (active && opt.mode === 'walk') startTouchWalk(); });
   $('#walkExit').onclick = () => setMode('orbit');
@@ -2620,7 +2620,7 @@ function bindUI(){
   $('#sun').oninput = e => { opt.hour = +e.target.value; applyLight(); };
 }
 
-/* ======================= 涓诲惊鐜? ======================= */
+/* ======================= 主循环 ======================= */
 const clock = new THREE.Clock();
 function startLoop(){ if (!raf){ clock.getDelta(); raf = requestAnimationFrame(loop); } }
 function loop(){
@@ -2636,7 +2636,7 @@ function loop(){
   labelRenderer.render(scene, camera);
 }
 
-function shot(){ const a = document.createElement('a'); a.download = tr('鎴峰瀷瑁呬慨鏂规', 'floor-plan-design') + '-3D.png'; a.href = renderer.domElement.toDataURL('image/png'); a.click(); }
+function shot(){ const a = document.createElement('a'); a.download = tr('户型装修方案', 'floor-plan-design') + '-3D.png'; a.href = renderer.domElement.toDataURL('image/png'); a.click(); }
 
 function relang(){ syncWalkTexts(); if (inited) buildLabels(); }
 
